@@ -1,0 +1,2 @@
+-e git://github.com/Rapptz/discord.py.git@f24f34e
+python-dotenv==0.20.0
