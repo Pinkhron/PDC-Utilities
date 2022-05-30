@@ -39,7 +39,7 @@ async def on_message(message):
         return
 
     if bot.user.mentioned_in(message):
-        v = config["bot"]["info"]
+        v = config["bot"]["version"]
 
         ping_embed = discord.Embed(title=f"PDC Utilities v{v}", url="https://github.com/Pinkhron/PDC-Utilities")
         ping_embed.description("PDC Utilities is an open-source bot made by <@597178180176052234> to manage PDC easier."
