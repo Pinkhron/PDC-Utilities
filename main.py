@@ -4,8 +4,9 @@ import time
 import platform
 import random
 
+from discord.ext.commands import has_role, MissingRole
+from discord.ext import commands
 import discord
-from discord import app_commands
 
 from dotenv import load_dotenv
 
@@ -29,28 +30,20 @@ intents.guilds = True
 intents.guild_messages = True
 intents.message_content = True
 
-
-class Bot(discord.Client):
-    async def startup(self):
-        await self.wait_until_ready()
-        await tree.sync(guild=discord.Object(id=guild_id))
+bot = commands.Bot(command_prefix='$', intents=intents)
 
 
-client = Bot(intents=intents)
-tree = app_commands.CommandTree(client)
-
-
-@client.event
+@bot.event
 async def on_ready():
-    print("Successfully logged in as {0.user}".format(client))
+    print("Successfully logged in as {0.user}".format(bot))
 
 
-@client.event
+@bot.event
 async def on_message(message):
-    if message.author.bot:
+    if message.author.bot:  # Doesn't respond to bots
         return
 
-    if client.user.mentioned_in(message):
+    if bot.user.mentioned_in(message):  # Mention embed
         version = config["bot"]["version"]
 
         _mention = discord.Embed(title=f"\U0001F44B Hey, <@!{message.author.id}>!",
@@ -66,14 +59,22 @@ async def on_message(message):
 
         await message.reply(embed=_mention)
 
-    if message.content.lower() == "pdc":
+    if message.content.lower() == "pdc":  # Respond to PDC
         await message.reply("is awesome", mention_author=True)
 
-# Slash commands
+# Bot commands
 
 
 @tree.command(guild=discord.Object(id=guild_id), name='8ball', description='Ask question get random response')
 async def _8ball(interaction: discord.Interaction, message: discord.Message):
+
+    await interaction.response.send_message(embed=_loading)
+    time.sleep(2.5)
+    await interaction.response.edit_message(embed=_response)
+
+
+@bot.command(name='8ball')
+async def _8ball(ctx, question):
     responses = ["Yes!", "Sure.", "Ok", "Positive", "Hell yeah", "Is that even a no"
                  "No.", "Nah", "Hell no.", "In your dreams", "No chance", "Negative"
                  "Idk", "hmm", "Ask again later, I'm too lazy rn", "Really?", "HAHAHAHAHAHA"]
@@ -89,11 +90,11 @@ async def _8ball(interaction: discord.Interaction, message: discord.Message):
     _response.set_footer(text="Made with \u2764\uFE0F by Pinkhron | \u00a9 PDC Utilities 2022",
                          icon_url=logo2)
 
-    await interaction.response.send_message(embed=_loading)
+    m = await ctx.reply(embed=_loading)
     time.sleep(2.5)
-    await interaction.response.edit_message(embed=_response)
+    await m.edit(embed=_response)
 
 
 # Run bot
 
-client.run(TOKEN)
+bot.run(TOKEN)
