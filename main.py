@@ -1,5 +1,6 @@
 import os
 import json
+import emoj
 import platform
 
 from discord.ext.commands import has_role, MissingRole
@@ -41,7 +42,7 @@ async def on_message(message):
     if bot.user.mentioned_in(message):
         version = config["bot"]["version"]
 
-        ping_embed = discord.Embed(title=f"Hello, ",
+        ping_embed = discord.Embed(title=f"\U0001F44B Hello, <@{message.author.id}>!",
                                    description="PDC Utilities is an open-source bot made by <@597178180176052234> to "
                                                "manage PDC easier. PDC Utilities was made with Python & Discord.py\n\n"
                                                f"- [Python](https://python.org) | v{platform.python_version()}\n"
