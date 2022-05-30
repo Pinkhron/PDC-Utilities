@@ -1,5 +1,6 @@
 import os
 import json
+import platform
 
 from discord.ext.commands import has_role, MissingRole
 from discord.ext import commands
@@ -14,7 +15,7 @@ TOKEN = os.getenv('TOKEN')
 
 # Config file
 
-with open('server.json') as cfg:
+with open('config.json') as cfg:
     config = json.load(cfg)
 
 # Initialize client
@@ -29,16 +30,30 @@ bot = commands.Bot(command_prefix='>', intents=intents)
 
 @bot.event
 async def on_ready():
-    print('Successfully logged in as {0.user}'.format(bot))
+    print("Successfully logged in as {0.user}".format(bot))
 
 
 @bot.event
 async def on_message(message):
-    if message.author == bot.user:
+    if message.author.bot:
         return
 
-    if message.content == "pdc":
-        await message.reply('is awesome', mention_author=True)
+    if bot.user.mentioned_in(message):
+        v = config["bot"]["info"]
+
+        ping_embed = discord.Embed(title=f"PDC Utilities v{v}", url="https://github.com/Pinkhron/PDC-Utilities")
+        ping_embed.description("PDC Utilities is an open-source bot made by <@597178180176052234> to manage PDC easier."
+                               "PDC Utilities was made with Python & Discord.py\n\n"
+                               f"- [Discord.py](https://github.com/Rapptz/discord.py) | v{discord.__version__}"
+                               f"- [Python](https://python.org) | v{platform.python_version()}")
+        ping_embed.set_image(message.guild.icon_url)
+        ping_embed.set_footer(text="Made with \u2764\uFE0F by Pinkhron | \u00a9 PDC Utilities 2022",
+                              icon_url="https://pinkhron.s3.us-east-1.amazonaws.com/PDC/logo2.png")
+
+        await message.reply(embed=ping_embed)
+
+    if message.content.lower() == "pdc":
+        await message.reply("is awesome", mention_author=True)
 
 
 # Run bot
