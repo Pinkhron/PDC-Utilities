@@ -1,2 +1,2 @@
--e git://github.com/Rapptz/discord.py.git@f24f34e#egg=discord.py
+-e git://github.com/Rapptz/discord.py.git@f24f34e#egg=discord
 python-dotenv==0.20.0
