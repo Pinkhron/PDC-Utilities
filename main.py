@@ -44,9 +44,9 @@ async def on_message(message):
         ping_embed = discord.Embed(title=f"Hello, ",
                                    description="PDC Utilities is an open-source bot made by <@597178180176052234> to "
                                                "manage PDC easier. PDC Utilities was made with Python & Discord.py\n\n"
-                                               f"- [Python](https://python.org) | v{platform.python_version()}"
+                                               f"- [Python](https://python.org) | v{platform.python_version()}\n"
                                                f"- [Discord.py](https://github.com/Rapptz/discord.py) | v{discord.__version__}\n"
-                                               f"- [PDC Utilities](https://github.com/Pinkhron/PDC-Utilities) | v{version}\n")
+                                               f"- [PDC Utilities](https://github.com/Pinkhron/PDC-Utilities) | v{version}")
         ping_embed.set_thumbnail(url=config["bot"]["icons"]["confetti"])
         ping_embed.set_footer(text="Made with \u2764\uFE0F by Pinkhron | \u00a9 PDC Utilities 2022",
                               icon_url=config["bot"]["icons"]["logo2"])
