@@ -27,12 +27,12 @@ intents.message_content = True
 bot = commands.Bot(command_prefix='>', intents=intents)
 
 
-@bot.event()
+@bot.event
 async def on_ready():
     print('Successfully logged in as {0.user}'.format(bot))
 
 
-@bot.event()
+@bot.event
 async def on_message(message):
     if message.author == bot.user:
         return
