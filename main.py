@@ -47,15 +47,17 @@ async def on_message(message):
         version = config["bot"]["version"]
 
         _mention = discord.Embed(title=f"\U0001F44B Hey, <@!{message.author.id}>!",
-                                    description="PDC Utilities is an open-source bot made by <@597178180176052234> to "
-                                                "make managing PDC easier. PDC Utilities was made with Python "
-                                                "& Discord.py\n\n"
-                                                f"- [Python](https://python.org) | v{platform.python_version()}\n"
-                                                f"- [Discord.py](https://github.com/Rapptz/discord.py) | v{discord.__version__}\n"
-                                                f"- [PDC Utilities](https://github.com/Pinkhron/PDC-Utilities) | v{version}")
+                                 description="PDC Utilities is an open-source bot made by <@597178180176052234> to "
+                                             "make managing PDC easier. PDC Utilities was made with Python "
+                                             "& Discord.py\n\n"
+                                             f"- [Python](https://python.org) | v{platform.python_version()}\n"
+                                             f"- [Discord.py](https://github.com/Rapptz/discord.py) | v{discord.__version__}\n"
+                                             f"- [PDC Utilities](https://github.com/Pinkhron/PDC-Utilities) | v{version}\n"
+                                             f"[PinkhronNetwork Status](https://status.pinkhron.net)\n \n"
+                                             "Thank you for joining PDC!")
         _mention.set_thumbnail(url=config["bot"]["icons"]["confetti"])
         _mention.set_footer(text="Made with \u2764\uFE0F by Pinkhron | \u00a9 PDC Utilities 2022",
-                               icon_url=logo2)
+                            icon_url=logo2)
 
         await message.reply(embed=_mention)
 
