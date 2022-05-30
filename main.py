@@ -43,7 +43,8 @@ async def on_message(message):
 
         ping_embed = discord.Embed(title=f"\U0001F44B Hello!",
                                    description="PDC Utilities is an open-source bot made by <@597178180176052234> to "
-                                               "manage PDC easier. PDC Utilities was made with Python & Discord.py\n\n"
+                                               "make managing PDC easier. PDC Utilities was made with Python "
+                                               "& Discord.py\n\n"
                                                f"- [Python](https://python.org) | v{platform.python_version()}\n"
                                                f"- [Discord.py](https://github.com/Rapptz/discord.py) | v{discord.__version__}\n"
                                                f"- [PDC Utilities](https://github.com/Pinkhron/PDC-Utilities) | v{version}")
