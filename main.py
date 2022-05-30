@@ -46,7 +46,7 @@ async def on_message(message):
                                                "manage PDC easier. PDC Utilities was made with Python & Discord.py\n\n"
                                                f"- [Discord.py](https://github.com/Rapptz/discord.py) | v{discord.__version__}"
                                                f"- [Python](https://python.org) | v{platform.python_version()}")
-        ping_embed.set_image(message.guild.icon_url)
+        ping_embed.set_image(message.guild.iconURL)
         ping_embed.set_footer(text="Made with \u2764\uFE0F by Pinkhron | \u00a9 PDC Utilities 2022",
                               icon_url="https://pinkhron.s3.us-east-1.amazonaws.com/PDC/logo2.png")
 
