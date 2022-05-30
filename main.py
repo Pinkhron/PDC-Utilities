@@ -1,6 +1,5 @@
 import os
 import json
-import emoj
 import platform
 
 from discord.ext.commands import has_role, MissingRole
