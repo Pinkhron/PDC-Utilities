@@ -1,6 +1,11 @@
 {
     "bot": {
-        "version": "1.1.3"
+        "version": "1.2.0",
+        "icons": {
+            "confetti": "https://pinkhron.s3.amazonaws.com/PDC/confetti.png",
+            "logo1": "https://pinkhron.s3.amazonaws.com/PDC/logo1.png",
+            "logo2": "https://pinkhron.s3.amazonaws.com/PDC/logo2.png"
+        }
     },
 
     "roles": {
