@@ -40,7 +40,6 @@ bot = commands.Bot(command_prefix=commands.when_mentioned_or('>'), intents=inten
 @bot.event
 async def on_ready():
     print("Successfully logged in as {0.user}".format(bot))
-    print(len(bot.user.mention))
 
 
 @bot.event
@@ -51,9 +50,7 @@ async def on_message(message):
     if message.content.lower() == "pdc":  # Respond to PDC
         await message.reply("is awesome", mention_author=False)
 
-    await bot.process_commands(message)
-"""
-    if bot.user.mentioned_in(message):  # Mention embed
+    if bot.user.mentioned_in(message) and len(bot.user.mention) == len(message.content)+2:  # Mention embed
         version = config["bot"]["version"]
 
         _mention = discord.Embed(title=f"\U0001F44B Hey, <@!{message.author.id}>!",
@@ -70,7 +67,9 @@ async def on_message(message):
         _mention.set_footer(text=_footer, icon_url=logo2)
 
         await message.reply(embed=_mention)
-"""
+
+    await bot.process_commands(message)
+
 
 """
 @bot.event
