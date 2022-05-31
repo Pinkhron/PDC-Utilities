@@ -67,14 +67,6 @@ async def on_message(message):
 # Bot commands
 
 
-@tree.command(guild=discord.Object(id=guild_id), name='8ball', description='Ask question get random response')
-async def _8ball(interaction: discord.Interaction, message: discord.Message):
-
-    await interaction.response.send_message(embed=_loading)
-    time.sleep(2.5)
-    await interaction.response.edit_message(embed=_response)
-
-
 @bot.command(name='8ball')
 async def _8ball(ctx, question):
     responses = ["Yes!", "Sure.", "Ok", "Positive", "Hell yeah", "Is that even a no"
