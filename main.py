@@ -34,7 +34,7 @@ intents.guilds = True
 intents.guild_messages = True
 intents.message_content = True
 
-bot = commands.Bot(command_prefix='>', intents=intents)
+bot = commands.Bot(command_prefix=commands.when_mentioned_or('>'), intents=intents)
 
 
 @bot.event
@@ -47,7 +47,7 @@ async def on_message(message):
     if message.author.bot:  # Doesn't respond to bots
         return
 
-    if bot.user.mentioned_in(message) and len(message.content) == len(bot.user.mention)+1:  # Mention embed
+    if bot.user.mentioned_in(message):  # Mention embed
         version = config["bot"]["version"]
 
         _mention = discord.Embed(title=f"\U0001F44B Hey, <@!{message.author.id}>!",
@@ -64,8 +64,6 @@ async def on_message(message):
         _mention.set_footer(text=_footer, icon_url=logo2)
 
         await message.reply(embed=_mention)
-    else:
-        await bot.process_commands(message)
 
     if message.content.lower() == "pdc":  # Respond to PDC
         await message.reply("is awesome", mention_author=False)
