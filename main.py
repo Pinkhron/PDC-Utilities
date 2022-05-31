@@ -27,7 +27,7 @@ logo2 = config["bot"]["icons"]["logo2"]
 
 intents = discord.Intents.default()
 
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix='>', intents=intents)
 
 
 @bot.event
