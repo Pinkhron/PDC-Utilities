@@ -42,7 +42,7 @@ bot = commands.Bot(command_prefix='>', intents=intents)
 async def on_ready():
     print("Successfully logged in as {0.user}".format(bot))
 
-
+"""
 @bot.event
 async def on_message(message):
     if message.author.bot:  # Doesn't respond to bots
@@ -69,7 +69,7 @@ async def on_message(message):
         await message.reply("is awesome", mention_author=False)
 
     await bot.process_commands(message)
-
+"""
 """
 @bot.event
 async def on_member_join(member):
@@ -98,7 +98,7 @@ async def _8ball(ctx, *, question):
     _loading = discord.Embed(color=0x000000,
                              description='\U0001F3B1 Shaking the magic 8-ball...')
 
-    _response = discord.Embed(title='\U0001F3B1 The magic 8-ball has spoken..',
+    _response = discord.Embed(title='\U0001F3B1 The magic 8-ball has chosen..',
                               description=f"**User:** <@!{ctx.author.id}>\n"
                               f"**Response:** {random.choice(responses)}\n"
                               f"**Question Asked:** {str(question)}",
