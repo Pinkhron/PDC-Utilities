@@ -74,17 +74,17 @@ async def _8ball(ctx, question):
                  "Idk", "hmm", "Ask again later, I'm too lazy rn", "Really?", "HAHAHAHAHAHA"]
 
     _loading = discord.Embed(color=0x000000,
-                             description='<a:PDC_Loading:980936150065750036> Shaking the magic 8-ball...')
+                             description='<a:PDC_Loading:980936150065750036> Shaking the magic 8-ball... \U0001F3B1')
 
     _response = discord.Embed(title='\U0001F3B1 The magic 8-ball has spoken..',
-                              description=f"**User:** <@!{message.author.id}>\n"
+                              description=f"**User:** <@!{ctx.author.id}>\n"
                               f"**Response:** {random.choice(responses)}\n"
-                              f"**Question Asked:**",
+                              f"**Question Asked:** {question}",
                               color=0x000000)
     _response.set_footer(text="Made with \u2764\uFE0F by Pinkhron | \u00a9 PDC Utilities 2022",
                          icon_url=logo2)
 
-    m = await ctx.reply(embed=_loading)
+    m = await ctx.send(embed=_loading)
     time.sleep(2.5)
     await m.edit(embed=_response)
 
