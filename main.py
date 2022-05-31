@@ -4,6 +4,7 @@ import time
 import platform
 import random
 
+from discord.ext.commands import has_role
 from discord.ext import commands
 import discord
 
@@ -14,13 +15,18 @@ from dotenv import load_dotenv
 load_dotenv()
 TOKEN = os.getenv('TOKEN')
 
-# Config file
+# Config
 
 with open('config.json') as cfg:
     config = json.load(cfg)
 
 guild_id = config["bot"]["server_id"]
 logo2 = config["bot"]["icons"]["logo2"]
+general = config["server"]["general"]
+member_role = config["roles"]["member"]
+vc_global = config["server"]["vc_global"]
+
+_footer = 'Made with \u2764\uFE0F by Pinkhron | \u00a9 PDC Utilities 20220'
 
 # Initialize client
 
@@ -55,8 +61,7 @@ async def on_message(message):
                                              f"[PinkhronNetwork Status](https://status.pinkhron.net)\n \n"
                                              "Thank you for joining PDC!")
         _mention.set_thumbnail(url=config["bot"]["icons"]["confetti"])
-        _mention.set_footer(text="Made with \u2764\uFE0F by Pinkhron | \u00a9 PDC Utilities 2022",
-                            icon_url=logo2)
+        _mention.set_footer(text=_footer, icon_url=logo2)
 
         await message.reply(embed=_mention)
 
@@ -65,6 +70,17 @@ async def on_message(message):
 
     await bot.process_commands(message)
 
+"""
+@bot.event
+async def on_member_join(member):
+    _general = bot.get_channel(general)
+
+    _join = discord.Embed(title="A new member has joined PDC!", description="{} has joined PDC."
+                                                                            "They have been invited by ".format(member))
+    _join.set_footer(text=_footer, icon_url=logo2)
+
+    await _general.send(embed=_join)
+"""
 # Bot commands
 
 
@@ -75,8 +91,8 @@ async def _ping(ctx):
 
 @bot.command(name='8ball')
 async def _8ball(ctx, *, question):
-    responses = ["Yes!", "Sure.", "Ok", "Positive", "Hell yeah", "Is that even a no"
-                 "No.", "Nah", "Hell no.", "In your dreams", "No chance", "Negative"
+    responses = ["Yes!", "Sure.", "Ok", "Positive", "Hell yeah", "Is that even a no",
+                 "No.", "Nah", "Hell no.", "In your dreams", "No chance", "Negative",
                  "Idk", "hmm", "Ask again later, I'm too lazy rn", "Really?", "HAHAHAHAHAHA"]
 
     _loading = discord.Embed(color=0x000000,
@@ -87,13 +103,27 @@ async def _8ball(ctx, *, question):
                               f"**Response:** {random.choice(responses)}\n"
                               f"**Question Asked:** {str(question)}",
                               color=0x000000)
-    _response.set_footer(text="Made with \u2764\uFE0F by Pinkhron | \u00a9 PDC Utilities 2022",
-                         icon_url=logo2)
+    _response.set_footer(text=_footer, icon_url=logo2)
 
     m = await ctx.reply(embed=_loading, mention_author=False)
     time.sleep(2.5)
     await m.edit(embed=_response)
 
+# Music
+
+
+@bot.command(name='join')
+@has_role(member_role)
+async def _join(ctx):
+    m = ctx.reply("<a:PDC_Loading:980936150065750036> Joining voice channel...")
+    if not ctx.message.author.voice:
+        await m.edit("❌ You need to join a voice channel to run this command")
+        return
+    else:
+        channel = ctx.message.author.voice.channel
+    await channel.connect()
+    await m.edit(f"Successfully connected to {channel}!")
+    await ctx.message.add_reaction("<a:PDC_Success:981093316114399252")
 
 # Run bot
 

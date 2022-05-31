@@ -1,12 +1,17 @@
 {
     "bot": {
-        "version": "1.5.11b",
+        "version": "1.6.0",
         "server_id": 966934902878646323,
         "icons": {
             "confetti": "https://pinkhron.s3.amazonaws.com/PDC/confetti.png",
             "logo1": "https://pinkhron.s3.amazonaws.com/PDC/logo1.png",
             "logo2": "https://pinkhron.s3.amazonaws.com/PDC/logo2.png"
         }
+    },
+
+    "server": {
+        "general": 966934903381983324,
+        "vc_global": 966942638504824924
     },
 
     "roles": {
