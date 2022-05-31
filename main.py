@@ -113,9 +113,9 @@ async def _ship(ctx, mem1: discord.Member, mem2: discord.Member):
     score = random.randint(0, 100)
 
     def heart_score(num):
-        if num in range(95, 101):
+        if num in range(90, 101):
             return '💗'
-        elif num in range(80, 95):
+        elif num in range(80, 90):
             return '💖'
         elif num in range(70, 80):
             return '💞'
@@ -132,7 +132,7 @@ async def _ship(ctx, mem1: discord.Member, mem2: discord.Member):
 
     _love = discord.Embed(title='💗 I rate this ship a...',
                           description=f'**Requester: <@!{ctx.author.id}>**\n \n'
-                          f'{mem1.mention} {heart_score(score)} {mem2.mention}'
+                          f'{mem1.mention} < {heart_score(score)} > {mem2.mention}\n \n'
                           f'**Score:** {score}%',
                           color=0xFF0000)
     _love.set_footer(text=_footer, icon_url=logo2)
