@@ -70,7 +70,7 @@ async def on_message(message):
 
 @bot.command(name='ping')
 async def _ping(ctx):
-    await ctx.send("Pong!")
+    await ctx.send(f"\U0001F3D3 Responded in {bot.latency}ms.")
 
 
 @bot.command(name='8ball')
