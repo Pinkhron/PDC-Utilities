@@ -132,12 +132,13 @@ async def _ship(ctx, mem1: discord.Member, mem2: discord.Member):
 
     _love = discord.Embed(title='💗 I rate this ship a...',
                           description=f'**Requester: <@!{ctx.author.id}>**\n \n'
-                          f'@{mem1} {heart_score(score)} @{mem2}'
-                          f'**Score:** {score}%')
+                          f'{mem1.mention} {heart_score(score)} {mem2.mention}'
+                          f'**Score:** {score}%',
+                          color=0xFF0000)
     _love.set_footer(text=_footer, icon_url=logo2)
 
     m = await ctx.reply(embed=_loading, mention_author=False)
-    time.sleep(2)
+    time.sleep(1.5)
     await m.edit(embed=_drumroll)
     time.sleep(1.5)
     await m.edit(embed=_love)
