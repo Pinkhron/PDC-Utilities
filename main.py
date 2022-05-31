@@ -24,7 +24,6 @@ guild_id = config["bot"]["server_id"]
 logo2 = config["bot"]["icons"]["logo2"]
 general = config["server"]["general"]
 member_role = config["roles"]["member"]
-vc_global = config["server"]["vc_global"]
 
 _footer = 'Made with \u2764\uFE0F by Pinkhron | \u00a9 PDC Utilities 2022'
 
@@ -95,8 +94,7 @@ async def _8ball(ctx, *, question):
                  "No.", "Nah", "Hell no.", "In your dreams", "No chance", "Negative",
                  "Idk", "hmm", "Ask again later, I'm too lazy rn", "Really?", "HAHAHAHAHAHA"]
 
-    _loading = discord.Embed(color=0x000000,
-                             description='\U0001F3B1 Shaking the magic 8-ball...')
+    _loading = discord.Embed(description='\U0001F3B1 Shaking the magic 8-ball...', color=0x000000)
 
     _response = discord.Embed(title='\U0001F3B1 The magic 8-ball has chosen..',
                               description=f"**User:** <@!{ctx.author.id}>\n"
@@ -109,9 +107,44 @@ async def _8ball(ctx, *, question):
     time.sleep(2.5)
     await m.edit(embed=_response)
 
+
+@bot.command(name='ship')
+async def _ship(ctx, mem1: discord.Member, mem2: discord.Member):
+    score = random.randint(0, 100)
+
+    def heart_score(num):
+        if num in range(95, 101):
+            return '💗'
+        elif num in range(80, 95):
+            return '💖'
+        elif num in range(70, 80):
+            return '💞'
+        elif num in range(50, 70):
+            return '❤'
+        elif num in range(35, 50):
+            return '💔'
+        elif num in range(0, 35):
+            return '🖤'
+
+    _load_random = ["Reading diaries", "Reading divorce papers", "Checking finances", "Scrolling through DMs"]
+    _loading = discord.Embed(description=f'💗 {random.choice(_load_random)}...', color=0xFF0000)
+    _drumroll = discord.Embed(description='🥁 Drumroll please...', color=0xFF0000)
+
+    _love = discord.Embed(title='💗 I rate this ship a...',
+                          description=f'**Requester: <@!{ctx.author.id}>**\n \n'
+                          f'{mem1} {heart_score(score)} {mem2}\n \n'
+                          f'**Score:** {score}%')
+    _love.set_footer(text=_footer, icon_url=logo2)
+
+    m = await ctx.reply(embed=_loading, mention_author=False)
+    time.sleep(2)
+    await m.edit(embed=_drumroll)
+    time.sleep(1.5)
+    await m.edit()
+
 # Music
 
-
+"""
 @bot.command(name='join')
 @has_role(member_role)
 async def _join(ctx):
@@ -123,7 +156,7 @@ async def _join(ctx):
     await channel.connect()
     await ctx.reply(f"Successfully connected to {channel}!")
     await ctx.message.add_reaction("<a:PDC_Success:981093316114399252")
-
+"""
 # Run bot
 
 bot.run(TOKEN)

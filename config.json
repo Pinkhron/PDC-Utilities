@@ -1,6 +1,6 @@
 {
     "bot": {
-        "version": "1.6.2",
+        "version": "1.7.0",
         "server_id": 966934902878646323,
         "icons": {
             "confetti": "https://pinkhron.s3.amazonaws.com/PDC/confetti.png",
@@ -10,8 +10,7 @@
     },
 
     "server": {
-        "general": 966934903381983324,
-        "vc_global": 966942638504824924
+        "general": 966934903381983324
     },
 
     "roles": {
