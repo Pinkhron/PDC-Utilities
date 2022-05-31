@@ -23,7 +23,6 @@ with open('config.json') as cfg:
 guild_id = config["bot"]["server_id"]
 logo2 = config["bot"]["icons"]["logo2"]
 general = config["server"]["general"]
-member_role = config["roles"]["member"]
 vc_global = config["server"]["vc_global"]
 
 _footer = 'Made with \u2764\uFE0F by Pinkhron | \u00a9 PDC Utilities 20220'
@@ -113,7 +112,6 @@ async def _8ball(ctx, *, question):
 
 
 @bot.command(name='join')
-@has_role(member_role)
 async def _join(ctx):
     m = ctx.reply("<a:PDC_Loading:980936150065750036> Joining voice channel...")
     if not ctx.message.author.voice:
