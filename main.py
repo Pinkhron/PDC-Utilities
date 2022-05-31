@@ -47,6 +47,11 @@ async def on_message(message):
     if message.author.bot:  # Doesn't respond to bots
         return
 
+    if message.content.lower() == "pdc":  # Respond to PDC
+        await message.reply("is awesome", mention_author=False)
+
+    await bot.process_commands(message)
+"""
     if bot.user.mentioned_in(message):  # Mention embed
         version = config["bot"]["version"]
 
@@ -64,11 +69,7 @@ async def on_message(message):
         _mention.set_footer(text=_footer, icon_url=logo2)
 
         await message.reply(embed=_mention)
-
-    if message.content.lower() == "pdc":  # Respond to PDC
-        await message.reply("is awesome", mention_author=False)
-
-    await bot.process_commands(message)
+"""
 
 """
 @bot.event
