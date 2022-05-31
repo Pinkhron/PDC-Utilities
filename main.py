@@ -67,6 +67,11 @@ async def on_message(message):
 # Bot commands
 
 
+@bot.command(name='ping')
+async def _ping(ctx):
+    await ctx.send("Pong! {0}".format(round(bot.latency, 1)))
+
+
 @bot.command(name='8ball')
 async def _8ball(ctx, question):
     responses = ["Yes!", "Sure.", "Ok", "Positive", "Hell yeah", "Is that even a no"
