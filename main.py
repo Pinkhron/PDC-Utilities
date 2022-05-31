@@ -25,7 +25,7 @@ logo2 = config["bot"]["icons"]["logo2"]
 
 # Initialize client
 
-intents = discord.Intents.default()
+intents = discord.Intents
 intents.guilds = True
 intents.guild_messages = True
 intents.message_content = True
