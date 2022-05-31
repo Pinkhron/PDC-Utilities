@@ -85,7 +85,7 @@ async def _8ball(ctx, question):
     _response = discord.Embed(title='\U0001F3B1 The magic 8-ball has spoken..',
                               description=f"**User:** <@!{ctx.author.id}>\n"
                               f"**Response:** {random.choice(responses)}\n"
-                              f"**Question Asked:** {question}",
+                              f"**Question Asked:** {str(question)}",
                               color=0x000000)
     _response.set_footer(text="Made with \u2764\uFE0F by Pinkhron | \u00a9 PDC Utilities 2022",
                          icon_url=logo2)
