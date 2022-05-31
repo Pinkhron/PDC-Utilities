@@ -90,7 +90,7 @@ async def _8ball(ctx, *, question):
     _response.set_footer(text="Made with \u2764\uFE0F by Pinkhron | \u00a9 PDC Utilities 2022",
                          icon_url=logo2)
 
-    m = await ctx.send(embed=_loading)
+    m = await ctx.reply(embed=_loading)
     time.sleep(2.5)
     await m.edit(embed=_response)
 
