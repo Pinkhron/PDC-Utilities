@@ -36,7 +36,7 @@ bot = commands.Bot(command_prefix='>', intents=intents)
 async def on_ready():
     print("Successfully logged in as {0.user}".format(bot))
 
-
+"""
 @bot.event
 async def on_message(message):
     if message.author.bot:  # Doesn't respond to bots
@@ -62,7 +62,7 @@ async def on_message(message):
 
     if message.content.lower() == "pdc":  # Respond to PDC
         await message.reply("is awesome", mention_author=True)
-
+"""
 # Bot commands
 
 
@@ -70,7 +70,7 @@ async def on_message(message):
 async def _ping(ctx):
     await ctx.send("Pong!")
 
-"""
+
 @bot.command(name='8ball')
 async def _8ball(ctx, question):
     responses = ["Yes!", "Sure.", "Ok", "Positive", "Hell yeah", "Is that even a no"
@@ -91,7 +91,7 @@ async def _8ball(ctx, question):
     m = await ctx.send(embed=_loading)
     time.sleep(2.5)
     await m.edit(embed=_response)
-"""
+
 
 # Run bot
 
