@@ -128,7 +128,7 @@ async def _ship(ctx, mem1: discord.Member, mem2: discord.Member):
 
     _load_random = ["Reading diaries", "Reading divorce papers", "Checking finances", "Scrolling through DMs"]
     _loading = discord.Embed(description=f'💗 {random.choice(_load_random)}...', color=0xFF0000)
-    # _drumroll = discord.Embed(description='🥁 Drumroll please...', color=0xFF0000)
+    _drumroll = discord.Embed(description='🥁 Drumroll please...', color=0xFF0000)
 
     _love = discord.Embed(title='💗 I rate this ship a...',
                           description=f'**Requester: <@!{ctx.author.id}>**\n \n'
@@ -138,9 +138,9 @@ async def _ship(ctx, mem1: discord.Member, mem2: discord.Member):
 
     m = await ctx.reply(embed=_loading, mention_author=False)
     time.sleep(2)
-    # await m.edit(embed=_drumroll)
-    # time.sleep(1.5)
-    await m.edit()
+    await m.edit(embed=_drumroll)
+    time.sleep(1.5)
+    await m.edit(embed=_love)
 
 # Music
 
