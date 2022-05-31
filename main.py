@@ -61,7 +61,7 @@ async def on_message(message):
         await message.reply(embed=_mention)
 
     if message.content.lower() == "pdc":  # Respond to PDC
-        await message.reply("is awesome", mention_author=True)
+        await message.reply("is awesome", mention_author=False)
 
     await bot.process_commands(message)
 
@@ -90,7 +90,7 @@ async def _8ball(ctx, *, question):
     _response.set_footer(text="Made with \u2764\uFE0F by Pinkhron | \u00a9 PDC Utilities 2022",
                          icon_url=logo2)
 
-    m = await ctx.reply(embed=_loading)
+    m = await ctx.reply(embed=_loading, mention_author=False)
     time.sleep(2.5)
     await m.edit(embed=_response)
 
