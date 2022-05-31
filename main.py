@@ -40,6 +40,7 @@ bot = commands.Bot(command_prefix=commands.when_mentioned_or('>'), intents=inten
 @bot.event
 async def on_ready():
     print("Successfully logged in as {0.user}".format(bot))
+    print(len(bot.user.mention))
 
 
 @bot.event
