@@ -64,6 +64,8 @@ async def on_message(message):
         _mention.set_footer(text=_footer, icon_url=logo2)
 
         await message.reply(embed=_mention)
+    else:
+        await bot.process_commands(message)
 
     if message.content.lower() == "pdc":  # Respond to PDC
         await message.reply("is awesome", mention_author=False)
