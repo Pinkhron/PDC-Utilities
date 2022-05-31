@@ -36,7 +36,7 @@ bot = commands.Bot(command_prefix='>', intents=intents)
 async def on_ready():
     print("Successfully logged in as {0.user}".format(bot))
 
-"""
+
 @bot.event
 async def on_message(message):
     if message.author.bot:  # Doesn't respond to bots
@@ -62,7 +62,9 @@ async def on_message(message):
 
     if message.content.lower() == "pdc":  # Respond to PDC
         await message.reply("is awesome", mention_author=True)
-"""
+
+    await bot.process_commands(message)
+
 # Bot commands
 
 
@@ -78,7 +80,7 @@ async def _8ball(ctx, question):
                  "Idk", "hmm", "Ask again later, I'm too lazy rn", "Really?", "HAHAHAHAHAHA"]
 
     _loading = discord.Embed(color=0x000000,
-                             description='<a:PDC_Loading:980936150065750036> Shaking the magic 8-ball... \U0001F3B1')
+                             description='\U0001F3B1 Shaking the magic 8-ball...')
 
     _response = discord.Embed(title='\U0001F3B1 The magic 8-ball has spoken..',
                               description=f"**User:** <@!{ctx.author.id}>\n"
