@@ -74,7 +74,7 @@ async def _ping(ctx):
 
 
 @bot.command(name='8ball')
-async def _8ball(ctx, question):
+async def _8ball(ctx, *, question):
     responses = ["Yes!", "Sure.", "Ok", "Positive", "Hell yeah", "Is that even a no"
                  "No.", "Nah", "Hell no.", "In your dreams", "No chance", "Negative"
                  "Idk", "hmm", "Ask again later, I'm too lazy rn", "Really?", "HAHAHAHAHAHA"]
