@@ -41,23 +41,24 @@ bot = commands.Bot(command_prefix='>', intents=intents)
 async def on_ready():
     print("Successfully logged in as {0.user}".format(bot))
 
-"""
+
 @bot.event
 async def on_message(message):
     if message.author.bot:  # Doesn't respond to bots
         return
 
-    if bot.user.mentioned_in(message):  # Mention embed
+    if bot.user.mentioned_in(message) and len(message.content) == len(bot.user.mention)+1:  # Mention embed
         version = config["bot"]["version"]
 
         _mention = discord.Embed(title=f"\U0001F44B Hey, <@!{message.author.id}>!",
                                  description="PDC Utilities is an open-source bot made by <@597178180176052234> to "
-                                             "make managing PDC easier. PDC Utilities was made with Python "
+                                             "make managing PDC easier. Run `>help` for a list of commands. "
+                                             "PDC Utilities was made with Python "
                                              "& Discord.py\n\n"
                                              f"- [Python](https://python.org) | v{platform.python_version()}\n"
                                              f"- [Discord.py](https://github.com/Rapptz/discord.py) | v{discord.__version__}\n"
                                              f"- [PDC Utilities](https://github.com/Pinkhron/PDC-Utilities) | v{version}\n"
-                                             f"[PinkhronNetwork Status](https://status.pinkhron.net)\n \n"
+                                             f"[PinkhronNetwork Status](https://status.pinkhron.net)\n\n"
                                              "Thank you for joining PDC!")
         _mention.set_thumbnail(url=config["bot"]["icons"]["confetti"])
         _mention.set_footer(text=_footer, icon_url=logo2)
@@ -68,7 +69,7 @@ async def on_message(message):
         await message.reply("is awesome", mention_author=False)
 
     await bot.process_commands(message)
-"""
+
 """
 @bot.event
 async def on_member_join(member):
@@ -131,8 +132,8 @@ async def _ship(ctx, mem1: discord.Member, mem2: discord.Member):
     _drumroll = discord.Embed(description='🥁 Drumroll please...', color=0xFF0000)
 
     _love = discord.Embed(title='💗 I rate this ship a...',
-                          description=f'**Requester: <@!{ctx.author.id}>**\n \n'
-                          f'{mem1.mention} < {heart_score(score)} > {mem2.mention}\n \n'
+                          description=f'**Requester: <@!{ctx.author.id}>**\n\n'
+                          f'{mem1.mention} < {heart_score(score)} > {mem2.mention}\n\n'
                           f'**Score:** {score}%',
                           color=0xFF0000)
     _love.set_footer(text=_footer, icon_url=logo2)
