@@ -25,10 +25,7 @@ logo2 = config["bot"]["icons"]["logo2"]
 
 # Initialize client
 
-intents = discord.Intents.default(False)
-intents.guilds = True
-intents.guild_messages = True
-intents.message_content = True
+intents = discord.Intents.default()
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
