@@ -25,7 +25,7 @@ logo2 = config["bot"]["icons"]["logo2"]
 
 # Initialize client
 
-intents = discord.Intents
+intents = discord.Intents.default()
 intents.guilds = True
 intents.guild_messages = True
 intents.message_content = True
@@ -69,7 +69,7 @@ async def on_message(message):
 
 @bot.command(name='ping')
 async def _ping(ctx):
-    await ctx.send("Pong! {0}".format(round(bot.latency, 1)))
+    await ctx.send("Pong!")
 
 
 @bot.command(name='8ball')
