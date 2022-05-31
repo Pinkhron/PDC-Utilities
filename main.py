@@ -70,7 +70,7 @@ async def on_message(message):
 async def _ping(ctx):
     await ctx.send("Pong!")
 
-
+"""
 @bot.command(name='8ball')
 async def _8ball(ctx, question):
     responses = ["Yes!", "Sure.", "Ok", "Positive", "Hell yeah", "Is that even a no"
@@ -91,7 +91,7 @@ async def _8ball(ctx, question):
     m = await ctx.send(embed=_loading)
     time.sleep(2.5)
     await m.edit(embed=_response)
-
+"""
 
 # Run bot
 
