@@ -26,7 +26,7 @@ general = config["server"]["general"]
 member_role = config["roles"]["member"]
 vc_global = config["server"]["vc_global"]
 
-_footer = 'Made with \u2764\uFE0F by Pinkhron | \u00a9 PDC Utilities 20220'
+_footer = 'Made with \u2764\uFE0F by Pinkhron | \u00a9 PDC Utilities 2022'
 
 # Initialize client
 
