@@ -155,9 +155,6 @@ async def _numgen(ctx, num1: int, num2: int):
     if num1 > num2:
         ctx.reply("❌ First number cannot be higher than the second number.")
         return
-    elif num1 or num2 > 1000000000000:
-        ctx.reply("❌ Numbers cannot be over 1 trillion.")
-        return
 
     _result = discord.Embed(title='🎲 Number Generated!', description=f'```{random.randint(num1, num2)}```')
     _result.set_footer(text=_footer, icon_url=logo2)
