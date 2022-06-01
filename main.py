@@ -1,6 +1,6 @@
 import os
 import json
-import time
+import asyncio
 import platform
 import random
 
@@ -8,6 +8,7 @@ from discord.ext.commands import has_role
 from discord.ext import commands
 import discord
 
+from pytube import YouTube
 from dotenv import load_dotenv
 
 # Load ENV
@@ -106,7 +107,7 @@ async def _8ball(ctx, *, question):
     _response.set_footer(text=_footer, icon_url=logo2)
 
     m = await ctx.reply(embed=_loading, mention_author=False)
-    time.sleep(2.5)
+    await asyncio.sleep(2.5)
     await m.edit(embed=_response)
 
 
@@ -140,9 +141,9 @@ async def _ship(ctx, mem1: discord.Member, mem2: discord.Member):
     _love.set_footer(text=_footer, icon_url=logo2)
 
     m = await ctx.reply(embed=_loading, mention_author=False)
-    time.sleep(1.5)
+    await asyncio.sleep(1.5)
     await m.edit(embed=_drumroll)
-    time.sleep(1.5)
+    await asyncio.sleep(1.5)
     await m.edit(embed=_love)
 
 # Music
@@ -151,15 +152,41 @@ async def _ship(ctx, mem1: discord.Member, mem2: discord.Member):
 @bot.command(name='join')
 @has_role(member_role)
 async def _join(ctx):
+
+    ctx.send("WARNING: PDC Music player is in beta. Bugs may occur & embed layout will most likely change.")
+
     if not ctx.message.author.voice:
-        await ctx.reply("❌ You need to join a voice channel to run this command")
+        await ctx.reply("You are not connected to a voice channel")
         return
     else:
         channel = ctx.message.author.voice.channel
+        await ctx.reply("Connected")
     await channel.connect()
-    await ctx.reply(f"Successfully connected to {channel}!")
-    await ctx.message.add_reaction("<a:PDC_Success:981093316114399252")
+
+
+@bot.command(name='play')
+@has_role(member_role)
+async def _play(ctx, link):
+    mp3_path = "./mp3"
+    vid = YouTube(link)
+
+    _info = discord.Embed(title='🎵 Playing audio...', description=f'📹 **Title:** {vid.title}\n'
+                                                                  f'👁️ **Views:** {vid.views}'
+                                                                  f'🔥 **Author:** {vid.author}')
+    _info.set_footer(text=_footer, icon_url=logo2)
+
+    ctx.send("WARNING: PDC Music player is in beta. Bugs may occur & embed layout will most likely change.")
+
+    if vid.length > 600:
+        ctx.reply("❌ Video cannot be over 10 minutes")
+        return
+    else:
+        vid.streams.get_audio_only().download(mp3_path)
+        voice_channel = ctx.message.author.voice.channel
+        
+        player = voice_channel.create_ffmpeg_player()
 """
+
 # Run bot
 
 bot.run(TOKEN)
