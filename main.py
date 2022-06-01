@@ -86,13 +86,16 @@ async def on_member_join(member):
 # Bot commands
 
 
-@bot.command(name='ping')
+@bot.command(name='ping')  # Utility
 async def _ping(ctx):
     await ctx.reply("\U0001F3D3 Responded in `{0}ms`.".format(round(bot.latency * 1000)))
 
 
-@bot.command(name='8ball')
+@bot.command(name='8ball')  # Random
 async def _8ball(ctx, *, question):
+    if len(question) > 2048:
+        return
+
     responses = ["Yes!", "Sure.", "Ok", "Positive", "Hell yeah", "Is that even a no",
                  "No.", "Nah", "Hell no.", "In your dreams", "No chance", "Negative",
                  "Idk", "hmm", "Ask again later, I'm too lazy rn", "Really?", "HAHAHAHAHAHA"]
@@ -111,7 +114,7 @@ async def _8ball(ctx, *, question):
     await m.edit(embed=_response)
 
 
-@bot.command(name='ship')
+@bot.command(name='ship')  # Random
 async def _ship(ctx, mem1: discord.Member, mem2: discord.Member):
     score = random.randint(0, 100)
 
@@ -145,6 +148,22 @@ async def _ship(ctx, mem1: discord.Member, mem2: discord.Member):
     await m.edit(embed=_drumroll)
     await asyncio.sleep(1.5)
     await m.edit(embed=_love)
+
+
+@bot.command(name='numgen')  # Random
+async def _numgen(ctx, num1: int, num2: int):
+    if num1 > num2:
+        ctx.reply("❌ First number cannot be higher than the second number.")
+        return
+    elif num1 or num2 > 1000000000000:
+        ctx.reply("❌ Numbers cannot be over 1 trillion.")
+        return
+
+    _result = discord.Embed(title='🎲 Number Generated!', description=f'```{random.randint(num1, num2)}```')
+    _result.set_footer(text=_footer, icon_url=logo2)
+
+    await ctx.reply(content=f'<@!{ctx.message.author.id}>', embed=_result)
+
 
 # Music
 
