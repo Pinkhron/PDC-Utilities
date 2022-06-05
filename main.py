@@ -90,10 +90,10 @@ async def _sync(ctx):
     await ctx.send('Syncing...')
 
     try:
-        await bot.tree.sync(guild=discord.Object(id=Data.GUILD_ID))
+        await bot.tree.sync(guild=Data.GUILD_ID)
     except discord.errors.Forbidden:
         await ctx.send('Error')
-        await bot.close()
+        pass
 
     await ctx.send('Success!')
 
