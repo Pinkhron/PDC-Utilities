@@ -2,7 +2,6 @@ import os
 import json
 import platform
 
-from discord.ext.commands import is_owner
 from discord.ext import commands
 import discord
 
@@ -83,16 +82,15 @@ async def on_message(message):
 # Initiate (/) commands
 
 @bot.command(name='sync')
-@commands.check(is_owner())
+@commands.is_owner()
 async def _sync(ctx):
     await ctx.send('Syncing...')
 
     try:
         await bot.tree.sync(guild=discord.Object(id=Data.GUILD_ID))
+        await ctx.send('Success!')
     except discord.errors.Forbidden:
         await ctx.send('Error')
-
-    await ctx.send('Success!')
 
 # Run bot
 
