@@ -2,7 +2,7 @@
 
 Open source PDC Utilities made with ❤️ using [Python], [PyCharm] & [Discord.py]
 
-## Changelog:
+## Changelog
 
 `v2.0.0`:
 
