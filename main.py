@@ -46,10 +46,16 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix='>', intents=intents, owner_id=597178180176052234)
 
+commands = ["8ball", "numgen", "ping", "ship"]
+
 
 @bot.event
 async def on_ready():
     print('Successfully logged in as {0.user}'.format(bot))
+
+    if __name__ == "__main__":
+        for cmd in commands:
+            await bot.load_extension(cmd)
 
 
 @bot.event
@@ -83,7 +89,7 @@ async def on_message(message):
 
 # Initiate (/) commands
 
-@bot.command(name='sync')
+@bot.command(name='sync')  # Sync (/) commands
 @commands.is_owner()
 async def _sync(ctx):
     await ctx.send('Syncing...')
