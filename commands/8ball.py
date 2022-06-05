@@ -28,6 +28,7 @@ class Ball(commands.Cog):
 
     @app_commands.command(name='8ball',
                           description='Ask the magic 8-ball a question and it will provide you with a randomized response')
+    @app_commands.guilds(discord.Object(id=Data.GUILD_ID))
     async def _8ball(self, interaction: discord.Interaction, question: str):
         if len(question) > 2048:
             return

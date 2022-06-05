@@ -22,6 +22,7 @@ class Numgen(commands.Cog):
         await self.bot.tree.sync(guild=discord.Object(id=Data.GUILD_ID))
 
     @app_commands.command( name='numgen', description='Generates a random number')
+    @app_commands.guilds(discord.Object(id=Data.GUILD_ID))
     async def _numgen(self, interaction: discord.Interaction, num1: int, num2: int):
         if num1 > num2:
             await interaction.response.send_message(discord.Embed(description=':x: `<num1>` cannot be higher than `<num2>`'))

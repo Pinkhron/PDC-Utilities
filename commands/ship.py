@@ -28,6 +28,7 @@ class Ship(commands.Cog):
         await self.bot.tree.sync(guild=discord.Object(id=Data.GUILD_ID))
 
     @app_commands.command(name='ship', description='Ships two users together with a randomized percentage')
+    @app_commands.guilds(discord.Object(id=Data.GUILD_ID))
     async def _ship(self, interaction: discord.Interaction, usr1: discord.Member, usr2: discord.Member):
         score = random.randint(0, 100)
 
