@@ -66,10 +66,10 @@ class Ship(commands.Cog):
 
         # Command embeds
 
-        _result = discord.Embed(title=':heartpulse: I rate this ship a...'
-                                      f'{text_score(score)}'
-                                      f'{usr1.mention} < {heart_score(score)} > {usr2.mention}\n\n'
-                                      f'**Score:** {score}%',
+        _result = discord.Embed(title=':heartpulse: I rate this ship a...',
+                                      description=f'{text_score(score)}\n\n'
+                                                  f'{usr1.mention} < {heart_score(score)} > {usr2.mention}\n\n'
+                                                  f'**Score:** {score}%',
                                 color=0xFF0000)
         _result.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
