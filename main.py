@@ -78,10 +78,13 @@ async def on_message(message):
 
         await message.reply(embed=_mention)
 
+    await bot.process_commands(message)
+
 
 # Initiate (/) commands
 
 @bot.command(name='sync')
+@commands.is_owner()
 async def _sync(ctx):
     await ctx.send('Syncing...')
 
