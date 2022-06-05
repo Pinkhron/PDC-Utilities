@@ -82,7 +82,6 @@ async def on_message(message):
 # Initiate (/) commands
 
 @bot.command(name='sync')
-@commands.is_owner()
 async def _sync(ctx):
     await ctx.send('Syncing...')
 
