@@ -46,8 +46,7 @@ intents.guild_messages = True
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='>', intents=intents, owner_id=597178180176052234)
-
-commands = ["8ball", "numgen", "ping", "ship"]
+tree = bot.tree
 
 
 @bot.event
