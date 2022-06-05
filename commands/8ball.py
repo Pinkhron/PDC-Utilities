@@ -3,6 +3,7 @@ import random
 import os
 
 from discord import app_commands
+from discord.ext import commands
 import discord
 
 
@@ -38,5 +39,5 @@ async def _8ball(interaction: discord.Interaction, question: str):
 
 # Discord.py setup
 
-def setup(bot):
-    bot.tree.add_command(_8ball)
+def setup(bot: commands.Bot) -> None:
+    bot.add_command(_8ball)
