@@ -19,4 +19,4 @@ async def _ping(interaction: discord.Interaction):
 # Discord.py setup
 
 def setup():
-    bot.tree.add_command(_ping)
+    await bot.tree.add_command(_ping)
