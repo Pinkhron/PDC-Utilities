@@ -14,13 +14,13 @@ TOKEN = os.getenv('TOKEN')
 
 # JSON
 
-with open('/json/server.json') as s:
+with open('./json/server.json') as s:
     server = json.load(s)
 
-with open('/json/responses.json') as res:
+with open('./json/responses.json') as res:
     responses = json.load(res)
 
-with open('/json/assets.json') as a:
+with open('./json/assets.json') as a:
     assets = json.load(a)
 
 
