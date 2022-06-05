@@ -47,7 +47,6 @@ intents.guild_messages = True
 intents.message_content = True
 
 bot = commands.Bot(command_prefix='>', intents=intents, owner_id=597178180176052234)
-tree = app_commands.CommandTree(bot)
 
 
 @bot.event
