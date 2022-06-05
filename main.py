@@ -55,8 +55,9 @@ async def on_ready():
     print('Successfully logged in as {0.user}'.format(bot))
 
     if __name__ == "__main__":
-        for cmd in commands:
-            await bot.load_extension(f'commands.{cmd[:-3]}')
+        for cmd in os.listdir('./commands'):
+            if cmd.endswith('.py'):
+                await bot.load_extension(f'command.{cmd[:-3]}')
 
 
 @bot.event
