@@ -2,8 +2,8 @@ import asyncio
 import random
 import os
 
+from discord import app_commands
 import discord
-
 
 
 # File config
@@ -17,7 +17,7 @@ _loadEmbed = discord.Embed(description=':8ball: Shaking the magic 8-ball...', co
 
 # Slash command
 
-@bot.tree.command(guild=discord.Object(id=Data.GUILD_ID), name='8ball',
+@app_commands.command(name='8ball',
               description='Ask the magic 8-ball a question and it will provide you with a randomized response')
 async def _8ball(interaction: discord.Interaction, question: str):
     if len(question) > 2048:
@@ -29,7 +29,7 @@ async def _8ball(interaction: discord.Interaction, question: str):
                                    description=f'**Response:**  **Question:**\n'
                                                f'```{random.choice(Data.BALL_RESPONSE)}``` ```{question}```',
                                    color=0x000000)
-    _responseEmbed.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
+    _responseEmbed.set_footer(text='test')
 
     m = await interaction.response.send_message(embed=_loadEmbed)
     await asyncio.sleep(2.5)
@@ -38,5 +38,5 @@ async def _8ball(interaction: discord.Interaction, question: str):
 
 # Discord.py setup
 
-def setup():
+def setup(bot):
     bot.tree.add_command(_8ball)
