@@ -1,5 +1,5 @@
-import asyncio
 import random
+import time
 import os
 
 import discord
@@ -32,7 +32,7 @@ async def _8ball(interaction: discord.Interaction, question: str):
     _responseEmbed.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
     m = await interaction.response.send_message(embed=_loadEmbed)
-    await asyncio.sleep(2.5)
+    time.sleep(2.5)
     await m.edit(embed=_responseEmbed)
 
 
