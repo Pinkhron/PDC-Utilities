@@ -54,6 +54,11 @@ commands = ["8ball", "numgen", "ping", "ship"]
 async def on_ready():
     print('Successfully logged in as {0.user}'.format(bot))
 
+    if __name__ == '__main__':
+        for cmd in os.listdir('./commands'):
+            if cmd.endswith('.py')
+                await bot.load_extension(f'{cmd[:-3]}')
+
 
 @bot.event
 async def on_message(message):
@@ -85,13 +90,6 @@ async def on_message(message):
 
 
 # Initiate (/) commands
-
-@bot.tree.command(guild=discord.Object(id=Data.GUILD_ID), name='test', description='dev cmd')
-async def _test(interaction: discord.Interaction, arg1: str):
-    await interaction.response.send_message(arg1)
-
-bot.tree.add_command(_test)
-
 
 @bot.command(name='sync')  # Sync (/) commands
 @is_owner()

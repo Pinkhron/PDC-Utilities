@@ -19,7 +19,7 @@ _loadEmbed = discord.Embed(description=':8ball: Shaking the magic 8-ball...', co
 
 @bot.tree.command(guild=discord.Object(id=Data.GUILD_ID), name='8ball',
               description='Ask the magic 8-ball a question and it will provide you with a randomized response')
-async def _8ball(interaction: discord.Interaction, *, question: str):
+async def _8ball(interaction: discord.Interaction, question: str):
     if len(question) > 2048:
         return
 
