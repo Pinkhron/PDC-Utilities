@@ -4,7 +4,7 @@ import os
 
 import discord
 
-from main import tree, Data
+from main import bot, Data
 
 # File config
 
@@ -17,7 +17,7 @@ _loadEmbed = discord.Embed(description=':8ball: Shaking the magic 8-ball...', co
 
 # Slash command
 
-@tree.command(guild=discord.Object(id=Data.GUILD_ID), name='8ball',
+@bot.tree.command(guild=discord.Object(id=Data.GUILD_ID), name='8ball',
               description='Ask the magic 8-ball a question and it will provide you with a randomized response')
 async def _8ball(interaction: discord.Interaction, *, question: str):
     if len(question) > 2048:
@@ -39,4 +39,4 @@ async def _8ball(interaction: discord.Interaction, *, question: str):
 # Discord.py setup
 
 def setup():
-    tree.add_command(_8ball)
+    bot.tree.add_command(_8ball)

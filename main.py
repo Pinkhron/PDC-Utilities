@@ -4,7 +4,6 @@ import platform
 
 from discord.ext.commands import is_owner
 from discord.ext import commands
-from discord import app_commands
 import discord
 
 from dotenv import load_dotenv
@@ -87,7 +86,7 @@ async def on_message(message):
 @commands.check(is_owner())
 async def _sync(ctx):
     await ctx.send('Syncing...')
-    await tree.sync(guild=discord.Object(id=Data.GUILD_ID))
+    await bot.tree.sync(guild=discord.Object(id=Data.GUILD_ID))
     await ctx.send('Success!')
 
 # Run bot

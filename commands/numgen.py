@@ -3,7 +3,7 @@ import os
 
 import discord
 
-from main import tree, Data
+from main import bot, Data
 
 # File config
 
@@ -12,7 +12,7 @@ random.seed(os.urandom(64))
 
 # Slash command
 
-@tree.command(guild=discord.Object(id=Data.GUILD_ID), name='numgen',
+@bot.tree.command(guild=discord.Object(id=Data.GUILD_ID), name='numgen',
               description='Generates a random number')
 async def _numgen(interaction: discord.Interaction, num1: int, num2: int):
     if num1 > num2:
@@ -33,4 +33,4 @@ async def _numgen(interaction: discord.Interaction, num1: int, num2: int):
 # Discord.py setup
 
 def setup():
-    tree.add_command(_numgen)
+    bot.tree.add_command(_numgen)

@@ -4,7 +4,7 @@ import os
 
 import discord
 
-from main import tree, Data
+from main import bot, Data
 
 # File config
 
@@ -18,7 +18,7 @@ _drumroll = discord.Embed(description='🥁 Drumroll please...', color=0xFF0000)
 
 # Slash command
 
-@tree.command(guild=discord.Object(id=Data.GUILD_ID), name='ship',
+@bot.tree.command(guild=discord.Object(id=Data.GUILD_ID), name='ship',
               description='Ships two users together with a randomized percentage')
 async def _ship(interaction: discord.Interaction, usr1: discord.Member, usr2: discord.Member):
     score = random.randint(0, 100)
@@ -74,4 +74,4 @@ async def _ship(interaction: discord.Interaction, usr1: discord.Member, usr2: di
 # Discord.py setup
 
 def setup():
-    tree.add_command(_ship)
+    bot.tree.add_command(_ship)
