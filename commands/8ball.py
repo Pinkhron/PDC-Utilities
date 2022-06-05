@@ -23,6 +23,9 @@ class Ball(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
 
+    async def setup_hook(self):
+        await self.bot.tree.sync(guild=discord.Object(id=Data.GUILD_ID))
+
     @app_commands.command(name='8ball',
                           description='Ask the magic 8-ball a question and it will provide you with a randomized response')
     async def _8ball(self, interaction: discord.Interaction, question: str):

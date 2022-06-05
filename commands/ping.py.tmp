@@ -4,11 +4,6 @@ import discord
 
 from data import Data
 
-# Embed
-
-_pingEmbed = discord.Embed(title=':ping_pong: Pong!', description=f'```{round(bot.latency * 1000)}ms```')
-_pingEmbed.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
-
 
 # Slash Command
 
@@ -18,6 +13,11 @@ class Ping(commands.Cog):
 
     @app_commands.command(name='ping', description='Tests the ping between Discord and PDC Utilities')
     async def _ping(self, interaction: discord.Interaction):
+        # Command embeds
+
+        _pingEmbed = discord.Embed(title=':ping_pong: Pong!', description=f'```{round(self.latency * 1000)}ms```')
+        _pingEmbed.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
+        
         await interaction.response.send_message(embed=_pingEmbed)
 
 
