@@ -90,6 +90,8 @@ async def on_message(message):
 async def _test(interaction: discord.Interaction, arg1: str):
     await interaction.response.send_message(arg1)
 
+bot.tree.add_command(_test)
+
 
 @bot.command(name='sync')  # Sync (/) commands
 @is_owner()
