@@ -88,13 +88,7 @@ async def on_message(message):
 @commands.check(is_owner())
 async def _sync(ctx):
     await ctx.send('Syncing...')
-
-    try:
-        await ctx.bot.tree.sync(guild=ctx.Data.GUILD_ID)
-    except discord.errors.Forbidden:
-        await ctx.send('Error')
-        pass
-
+    await tree.sync(guild=discord.Object(id=Data.GUILD_ID))
     await ctx.send('Success!')
 
 # Run bot
