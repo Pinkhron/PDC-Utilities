@@ -56,7 +56,7 @@ async def on_ready():
 
     if __name__ == "__main__":
         for cmd in commands:
-            await bot.load_extension(f'commands.{cmd}')
+            await bot.load_extension(f'commands.{cmd[:-3]}')
 
 
 @bot.event
