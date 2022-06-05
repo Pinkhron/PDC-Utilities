@@ -57,7 +57,7 @@ async def on_ready():
     if __name__ == "__main__":
         for cmd in os.listdir('./commands'):
             if cmd.endswith('.py'):
-                await bot.load_extension(f'command.{cmd[:-3]}')
+                await bot.load_extension(f'{cmd[:-3]}')
 
 
 @bot.event
