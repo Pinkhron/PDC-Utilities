@@ -1,0 +1,9 @@
+{
+    "8ball_response": ["Yes!", "Sure.", "Ok", "Positive", "Hell yeah", "Is that even a no",
+                        "No.", "Nah", "Hell no.", "In your dreams", "No chance", "Negative",
+                        "Idk", "hmm", "Ask again later, I'm too lazy rn", "Really?", "HAHAHAHAHAHA"],
+
+    "ship_load": ["Reading diaries", "Reading divorce papers", "Checking finances", "Scrolling through DMs"],
+
+    "footer": "Made with :heart: by Pinkhron | :copyright: PDC Utilities 2022"
+}
