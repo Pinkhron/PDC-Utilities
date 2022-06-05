@@ -36,7 +36,7 @@ class Ball(commands.Cog):
         # Command Embed
 
         _responseEmbed = discord.Embed(title=':8ball: The magic 8-ball has chosen..',
-                                       description=f'**Response:** {random.choice(Data.BALL_RESPONSE)}'
+                                       description=f'**Response:** {random.choice(Data.BALL_RESPONSE)}\n'
                                                    f'**Question:** {question}\n',
                                        color=0x000000)
         _responseEmbed.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
