@@ -1,10 +1,10 @@
 import discord
 
-from main import tree, client, Data  # Discord.py stuff & JSON Data
+from main import tree, bot, Data  # Discord.py stuff & JSON Data
 
 # Embed
 
-_pingEmbed = discord.Embed(title=':ping_pong: Pong!', description=f'```{round(client.latency * 1000)}ms```')
+_pingEmbed = discord.Embed(title=':ping_pong: Pong!', description=f'```{round(bot.latency * 1000)}ms```')
 _pingEmbed.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
 

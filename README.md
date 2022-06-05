@@ -8,7 +8,7 @@ Open source PDC Utilities made with ❤️ using [Python], [PyCharm] & [Discord.
 
 - Made commands that generate random objects more random
 - You can now generate numbers up to 1 septillion
-- Commands are now (/) commands
+- Introduced (/) commands
 - Cleaner project files
 
 Copyright © PDC Utilities 2022. All rights reserved.

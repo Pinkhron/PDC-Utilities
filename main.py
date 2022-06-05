@@ -2,6 +2,8 @@ import os
 import json
 import platform
 
+from discord.ext.commands import is_owner
+from discord.ext import commands
 from discord import app_commands
 import discord
 
@@ -26,6 +28,7 @@ with open('./json/assets.json') as a:
 
 class Data:
     GUILD_ID = server['guild_id']
+    ROLE_ORGANIZER = server['roles']['organizer']
 
     VERSION = assets['version']
     LOGO_BOT = assets['icons']['bot']
@@ -36,23 +39,23 @@ class Data:
     FOOTER = responses['footer']
 
 
-# Initialize client
+# Initialize bot
 
 intents = discord.Intents.default()
 intents.guilds = True
 intents.guild_messages = True
 intents.message_content = True
 
-client = discord.Client(intents=intents)
-tree = app_commands.CommandTree(client)
+bot = commands.Bot(command_prefix='>', intents=intents, owner_id=597178180176052234)
+tree = app_commands.CommandTree(bot)
 
 
-@client.event
+@bot.event
 async def on_ready():
-    print('Successfully logged in as {0.user}'.format(client))
+    print('Successfully logged in as {0.user}'.format(bot))
 
 
-@client.event
+@bot.event
 async def on_message(message):
     if message.author.bot:  # Doesn't respond to bots
         return
@@ -60,7 +63,7 @@ async def on_message(message):
     if message.content.lower() == 'pdc':  # Respond to PDC
         await message.reply('is awesome', mention_author=False)
 
-    if client.user.mentioned_in(message) and len(client.user.mention) == len(message.content):  # Mention embed
+    if bot.user.mentioned_in(message) and len(bot.user.mention) == len(message.content):  # Mention embed
         version = Data.VERSION
 
         _mention = discord.Embed(title=f'\U0001F44B Hey, {message.author.name}#{message.author.discriminator}!',
@@ -78,10 +81,22 @@ async def on_message(message):
 
         await message.reply(embed=_mention)
 
+
 # Initiate (/) commands
 
+@bot.command(name='sync')
+@commands.check(is_owner())
+async def _sync(ctx):
+    await ctx.send('Syncing...')
 
+    try:
+        await tree.sync(guild=discord.Object(id=Data.GUILD_ID))
+    except discord.errors.Forbidden:
+        await ctx.send('Error')
+        await bot.close()
+
+    await ctx.send('Success!')
 
 # Run bot
 
-client.run(TOKEN)
+bot.run(TOKEN)
