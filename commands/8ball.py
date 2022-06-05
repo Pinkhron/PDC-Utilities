@@ -43,5 +43,5 @@ class Ball(commands.Cog):
 
 # Discord.py setup
 
-def setup(bot: commands.Bot) -> None:
+async def setup(bot: commands.Bot) -> None:
     await bot.add_cog(Ball(bot))
