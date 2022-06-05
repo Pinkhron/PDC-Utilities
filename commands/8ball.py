@@ -18,26 +18,30 @@ _loadEmbed = discord.Embed(description=':8ball: Shaking the magic 8-ball...', co
 
 # Slash command
 
-@app_commands.command(name='8ball',
-              description='Ask the magic 8-ball a question and it will provide you with a randomized response')
-async def _8ball(interaction: discord.Interaction, question: str):
-    if len(question) > 2048:
-        return
+class Ball(commands.Cog):
+    def __init__(self, bot: commands.Bot) -> None:
+        self.bot = bot
 
-    # Command Embed
+    @app_commands.command(name='8ball',
+                          description='Ask the magic 8-ball a question and it will provide you with a randomized response')
+    async def _8ball(self, interaction: discord.Interaction, question: str):
+        if len(question) > 2048:
+            return
 
-    _responseEmbed = discord.Embed(title=':8ball: The magic 8-ball has chosen..',
-                                   description=f'**Response:**  **Question:**\n'
-                                               f'```{random.choice(Data.BALL_RESPONSE)}``` ```{question}```',
-                                   color=0x000000)
-    _responseEmbed.set_footer(text='test')
+        # Command Embed
 
-    m = await interaction.response.send_message(embed=_loadEmbed)
-    await asyncio.sleep(2.5)
-    await m.edit(embed=_responseEmbed)
+        _responseEmbed = discord.Embed(title=':8ball: The magic 8-ball has chosen..',
+                                       description=f'**Response:**  **Question:**\n'
+                                                   f'```{random.choice(Data.BALL_RESPONSE)}``` ```{question}```',
+                                       color=0x000000)
+        _responseEmbed.set_footer(text='test')
+
+        m = await interaction.response.send_message(embed=_loadEmbed)
+        await asyncio.sleep(2.5)
+        await m.edit(embed=_responseEmbed)
 
 
 # Discord.py setup
 
 def setup(bot: commands.Bot) -> None:
-    bot.add_command(_8ball)
+    await bot.add_cog(Ball(bot))
