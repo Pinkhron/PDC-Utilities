@@ -1,6 +1,8 @@
+from discord import app_commands
+from discord.ext import commands
 import discord
 
-from main import bot, Data  # Discord.py stuff & JSON Data
+from data import Data
 
 # Embed
 
@@ -10,13 +12,16 @@ _pingEmbed.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
 # Slash Command
 
-@bot.tree.command(guild=discord.Object(id=Data.GUILD_ID), name='ping',
-                  description='Tests the ping between Discord and PDC Utilities')
-async def _ping(interaction: discord.Interaction):
-    await interaction.response.send_message(embed=_pingEmbed)
+class Ping(commands.Cog):
+    def __init__(self, bot: commands.Bot) -> None:
+        self.bot = bot
+
+    @app_commands.command(name='ping', description='Tests the ping between Discord and PDC Utilities')
+    async def _ping(self, interaction: discord.Interaction):
+        await interaction.response.send_message(embed=_pingEmbed)
 
 
 # Discord.py setup
 
-def setup():
-    bot.tree.add_command(_ping)
+async def setup(bot: commands.Bot):
+    await bot.add_cog(Ping(bot))

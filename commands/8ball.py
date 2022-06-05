@@ -6,6 +6,7 @@ from discord import app_commands
 from discord.ext import commands
 import discord
 
+from data import Data
 
 # File config
 
@@ -34,7 +35,7 @@ class Ball(commands.Cog):
                                        description=f'**Response:**  **Question:**\n'
                                                    f'```{random.choice(Data.BALL_RESPONSE)}``` ```{question}```',
                                        color=0x000000)
-        _responseEmbed.set_footer(text='test')
+        _responseEmbed.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
         m = await interaction.response.send_message(embed=_loadEmbed)
         await asyncio.sleep(2.5)
