@@ -41,9 +41,9 @@ class Ball(commands.Cog):
                                        color=0x000000)
         _responseEmbed.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
-        m = await interaction.response.send_message(embed=_loadEmbed)
+        await interaction.response.send_message(embed=_loadEmbed)
         await asyncio.sleep(2.5)
-        await m.edit(embed=_responseEmbed)
+        await interaction.edit_original_message(embed=_responseEmbed)
 
 
 # Discord.py setup

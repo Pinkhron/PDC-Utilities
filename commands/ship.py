@@ -73,11 +73,11 @@ class Ship(commands.Cog):
                                 color=0xFF0000)
         _result.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
-        m = await interaction.response.send_message(embed=_load)
+        await interaction.response.send_message(embed=_load)
         await asyncio.sleep(1.5)
-        await m.edit(embed=_drumroll)
+        await interaction.edit_original_message(embed=_drumroll)
         await asyncio.sleep(1.5)
-        await m.edit(embed=_result)
+        await interaction.edit_original_message(embed=_result)
 
 
 # Discord.py setup
