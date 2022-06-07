@@ -18,11 +18,10 @@ class Music(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
 
-    @app_commands.command(name='join')  # Join VC
+    @app_commands.command(name='join', description='Joins VC')  # Join VC
     @app_commands.guilds(discord.Object(id=Data.GUILD_ID))
-    @app_commands.checks.cooldown(1, 60.0, key=lambda i: i.user.id)
     async def _join(self, interaction: discord.Interaction) -> None:
-        if not interaction.user.voice.channel == Data.VC_GLOBAL:
+        if not interaction.user.voice == Data.VC_GLOBAL:
             await interaction.response.send_message(embed=_noGlobalEmbed)
             return
         else:
@@ -30,11 +29,11 @@ class Music(commands.Cog):
             await interaction.response.send_message(embed=_connectedEmbed)
         await vc.connect()
 
-    @app_commands.command(name='disconnect')  # Disconnect from VC
+    @app_commands.command(name='disconnect', description='Force disconnect from VC')  # Disconnect from VC
     @app_commands.guilds(discord.Object(id=Data.GUILD_ID))
     @app_commands.checks.cooldown(1, 60.0, key=lambda i: i.user.id)
     async def _disconnect(self, interaction: discord.Interaction):
-        if not interaction.user.voice.channel == Data.VC_GLOBAL:
+        if not interaction.user.voice == Data.VC_GLOBAL:
             await interaction.response.send_message(embed=_noGlobalEmbed)
         else:
             vc = interaction.message.guild.voice_client
@@ -47,7 +46,6 @@ class Music(commands.Cog):
 
     # Error handling
 
-    @_join.error
     @_disconnect.error
     async def join_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):  # Cooldown
         if isinstance(error, app_commands.CommandOnCooldown):
