@@ -27,7 +27,7 @@ bot = commands.Bot(command_prefix='>', intents=intents, owner_id=597178180176052
 async def on_ready():
     print('Successfully logged in as {0.user}'.format(bot))
 
-    if __name__ == '__main__':
+    if __name__ == '__main__':  # Read slash command files
         for cmd in os.listdir('./commands'):
             if cmd.endswith('.py'):
                 await bot.load_extension(f'commands.{cmd[:-3]}')
@@ -62,7 +62,7 @@ async def on_message(message):
     await bot.process_commands(message)
 
 
-# Initiate (/) commands
+# Regular commands
 
 @bot.command(name='sync')  # Sync (/) commands
 @is_owner()
@@ -74,6 +74,14 @@ async def _sync(ctx):
         await ctx.send('Success!')
     except discord.errors.Forbidden:
         await ctx.send('Error')
+
+
+@bot.command(name='ping')
+async def _ping(ctx):
+    _pingEmbed = discord.Embed(title=':ping_pong: Pong!', description=f'```{round(bot.latency * 1000)}ms```')
+    _pingEmbed.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
+
+    await ctx.reply(embed=_pingEmbed, mention_author=False)
 
 # Run bot
 

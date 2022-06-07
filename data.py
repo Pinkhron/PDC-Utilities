@@ -14,6 +14,7 @@ with open('./json/assets.json') as a:
 
 class Data:
     GUILD_ID = server['guild_id']
+    VC_GLOBAL = server['channels']['member']['vc_global']
     ROLE_ORGANIZER = server['roles']['organizer']
 
     VERSION = assets['version']

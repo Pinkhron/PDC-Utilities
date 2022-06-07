@@ -2,7 +2,13 @@
 
 Open source PDC Utilities made with ❤️ using [Python], [PyCharm] & [Discord.py]
 
+Using PEP-8 Formatting
+
 ## Changelog
+
+`v2.1.0`:
+
+- Added music commands
 
 `v2.0.0`:
 

@@ -1,4 +1,5 @@
 -e git+git://github.com/Rapptz/discord.py.git@7857a84#egg=discord.py
 python-dotenv==0.20.0
+matplotlib==3.5.2
 PyNaCl==1.5.0
 pytube==12.1.0

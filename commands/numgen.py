@@ -21,7 +21,7 @@ class Numgen(commands.Cog):
     async def setup_hook(self):
         await self.bot.tree.sync(guild=discord.Object(id=Data.GUILD_ID))
 
-    @app_commands.command( name='numgen', description='Generates a random number')
+    @app_commands.command(name='numgen', description='Generates a random number')
     @app_commands.guilds(discord.Object(id=Data.GUILD_ID))
     async def _numgen(self, interaction: discord.Interaction, num1: int, num2: int):
         if num1 > num2:
