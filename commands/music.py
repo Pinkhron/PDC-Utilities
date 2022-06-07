@@ -6,7 +6,7 @@ from data import Data
 
 # Embeds
 
-_noGlobalEmbed = discord.Embed(description=':x: You must be in "Global VC" to run this command', color=0xFF0000)
+_noVcEmbed = discord.Embed(description=':x: You must be a VC run this command', color=0xFF0000)
 _notInVc = discord.Embed(description=':x: I am not in a voice channel')
 
 _connectedEmbed = discord.Embed(description='<a:PDC_Success:981093316114399252> Connected!', color=0x198754)
@@ -21,8 +21,8 @@ class Music(commands.Cog):
     @app_commands.command(name='join', description='Joins VC')  # Join VC
     @app_commands.guilds(discord.Object(id=Data.GUILD_ID))
     async def _join(self, interaction: discord.Interaction) -> None:
-        if not interaction.user.voice == Data.VC_GLOBAL:
-            await interaction.response.send_message(embed=_noGlobalEmbed)
+        if not interaction.user.voice:
+            await interaction.response.send_message(embed=_noVcEmbed)
             return
         else:
             vc = interaction.user.voice.channel
@@ -33,16 +33,13 @@ class Music(commands.Cog):
     @app_commands.guilds(discord.Object(id=Data.GUILD_ID))
     @app_commands.checks.cooldown(1, 60.0, key=lambda i: i.user.id)
     async def _disconnect(self, interaction: discord.Interaction):
-        if not interaction.user.voice == Data.VC_GLOBAL:
-            await interaction.response.send_message(embed=_noGlobalEmbed)
-        else:
-            vc = interaction.message.guild.voice_client
+        vc = interaction.message.guild.voice_client
 
-            if not vc:
-                await interaction.response.send_message(embed=_notInVc)
-            else:
-                await vc.disconnect()
-                await interaction.response.send_message(embed=_disconnectedEmbed)
+        if not vc:
+            await interaction.response.send_message(embed=_notInVc)
+        else:
+            await vc.disconnect()
+            await interaction.response.send_message(embed=_disconnectedEmbed)
 
     # Error handling
 
