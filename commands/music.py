@@ -31,22 +31,15 @@ class Music(commands.Cog):
 
     @app_commands.command(name='disconnect', description='Force disconnect from VC')  # Disconnect from VC
     @app_commands.guilds(discord.Object(id=Data.GUILD_ID))
-    @app_commands.checks.cooldown(1, 60.0, key=lambda i: i.user.id)
     async def _disconnect(self, interaction: discord.Interaction):
         vc = interaction.message.guild.voice_client
 
         if not vc:
             await interaction.response.send_message(embed=_notInVc)
+            return
         else:
-            await vc.disconnect()
             await interaction.response.send_message(embed=_disconnectedEmbed)
-
-    # Error handling
-
-    @_disconnect.error
-    async def join_error(self, interaction: discord.Interaction, error: app_commands.AppCommandError):  # Cooldown
-        if isinstance(error, app_commands.CommandOnCooldown):
-            await interaction.response.send_message(str(error), ephemeral=True)
+        return await vc.disconnect()
 
 
 async def setup(bot: commands.Bot) -> None:
