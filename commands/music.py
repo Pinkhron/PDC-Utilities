@@ -31,7 +31,7 @@ class Music(commands.Cog):
 
     @app_commands.command(name='disconnect', description='Force disconnect from VC')  # Disconnect from VC
     @app_commands.guilds(discord.Object(id=Data.GUILD_ID))
-    async def _disconnect(self, interaction: discord.Interaction):
+    async def _disconnect(self, interaction: discord.Interaction) -> None:
         vc = interaction.message.guild.voice_client
 
         if not vc:
