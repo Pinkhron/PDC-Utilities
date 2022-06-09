@@ -4,7 +4,7 @@ class Data:
     TXT_BOTS = 966958813565550592
     ROLE_ORGANIZER = 966936260285448202
 
-    VERSION = "2.1.2"  # Assets
+    VERSION = "2.1.3"  # Assets
     LOGO_BOT = "https://pinkhron.s3.amazonaws.com/PDC/icons/bot.png"
     LOGO_DEFAULT = "https://pinkhron.s3.amazonaws.com/PDC/icons/default.png"
 

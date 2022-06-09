@@ -44,9 +44,9 @@ async def on_message(message):
     if bot.user.mentioned_in(message) and len(bot.user.mention) == len(message.content):  # Mention embed
         version = Data.VERSION
 
-        _mention = discord.Embed(title=f'\U0001F44B Hey, {message.author.name}#{message.author.discriminator}!',
+        _mention = discord.Embed(title=f'\U0001F44B Hey, {message.author.name}!',
                                  description='PDC Utilities is an open-source bot made by <@597178180176052234> to '
-                                             'make managing PDC easier. Click'
+                                             'make managing PDC easy & to make PDC fun! Click '
                                              '[**here**](https://discord.com/channels/966934902878646323/966958813565550592/984320243830755349) '
                                              f'or check pins in <#{Data.TXT_BOTS}> for a list of commands. '
                                              'PDC Utilities was made with Python & Discord.py\n\n'
