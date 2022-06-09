@@ -27,8 +27,8 @@ bot = commands.Bot(command_prefix='>', intents=intents, owner_id=597178180176052
 async def on_ready():
     print('Successfully logged in as {0.user}'.format(bot))
 
-    if __name__ == '__main__':  # Read slash command files
-        for cmd in os.listdir('./commands'):
+    if __name__ == '__main__':  # File handling
+        for cmd in os.listdir('./commands'):  # Slash commands
             if cmd.endswith('.py'):
                 await bot.load_extension(f'commands.{cmd[:-3]}')
 
