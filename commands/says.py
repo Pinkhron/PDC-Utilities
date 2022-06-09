@@ -63,8 +63,6 @@ class Says(commands.GroupCog, name='says'):
         if view.value is None:
             await interaction.response.send_message(content=':clock3: Timed out', ephemeral=True)
         elif view.value:
-            await interaction.response.send_message(content=':eyes: coming soon')
-
             host = get(interaction.guild.roles, name="SAYS HOST")  # Give host role
             await interaction.user.add_roles(host)
 
