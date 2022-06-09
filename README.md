@@ -3,11 +3,17 @@
 </p>
 <h1 align="center" style="margin-top: 0px;">PDC Utilities</h1>
 
-<p align="center" style="margin-bottom 0px !important;">Made with ❤️ by Pinkhron using [Python], [PyCharm] & [Discord.py]</p>
+<p align="center" style="margin-bottom 0px !important;">
+
+Made with ❤️ by Pinkhron using [Python], [PyCharm] & [Discord.py]
+
+</p>
 
 <div align="center">
-    [![License](https://img.shields.io/github/license/Pinkhron/PDC-Utilities?style=for-the-badge)]
-    [![Size](https://img.shields.io/github/repo-size/Pinkhron/PDC-Utilities?style=for-the-badge)]
+
+    [![License](https://img.shields.io/github/license/Pinkhron/PDC-Utilities?style=for-the-badge)](https://github.com/Pinkhron/PDC-Utilities/blob/main/LICENSE)
+    [![Size](https://img.shields.io/github/repo-size/Pinkhron/PDC-Utilities?style=for-the-badge)](https://github.com/Pinkhron/PDC-Utilities)
+
 </div>
 
 <h2 align="center" style="margin-bottom 0px !important;">Changelog</h2>
