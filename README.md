@@ -13,6 +13,7 @@
 
 <div align="center">
     <img src="https://img.shields.io/github/repo-size/Pinkhron/PDC-Utilities?style=for-the-badge" alt="Repo size">
+    <img src="https://img.shields.io/github/commit-activity/m/Pinkhron/PDC-Utilities?style=for-the-badge" alt="Commits">
     <img src="https://img.shields.io/github/license/Pinkhron/PDC-Utilities?style=for-the-badge" alt="License">
 </div>
 
