@@ -22,14 +22,13 @@ class Confirm(discord.ui.View):
     @discord.ui.button(emoji='✅', label='Confirm', style=discord.ButtonStyle.green)
     async def _accept(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message(embed=discord.Embed(description=f'{Data.EMOTE_LOAD} '
-                                                                                'Preparing for a new game..'))
+                                                                                'Starting a new game..'))
         self.value = True
         self.stop()
 
     @discord.ui.button(emoji='❌', label='Cancel', style=discord.ButtonStyle.grey)
     async def _deny(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.send_message(embed=discord.Embed(description=f'{Data.EMOTE_LOAD} Cancelling..'),
-                                                ephemeral=True)
+        await interaction.response.send_message(content=f'Cancelled', ephemeral=True)
         self.value = False
         self.stop()
 
@@ -50,11 +49,11 @@ class Says(commands.GroupCog, name='says'):
         await view.wait()
 
         if view.value is None:
-            await interaction.edit_original_message(content=':clock3: Timed out')
+            await interaction.response.send_message(content=':clock3: Timed out', ephemeral=True)
         elif view.value:
-            await interaction.edit_original_message(content=':eyes: coming soon')
+            await interaction.response.send_message(content=':eyes: coming soon')
         else:
-            await interaction.edit_original_message(content=':x: Cancelled')
+            return
 
 
 async def setup(bot: commands.Bot):
