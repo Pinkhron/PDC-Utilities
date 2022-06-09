@@ -21,14 +21,15 @@ class Confirm(discord.ui.View):
 
     @discord.ui.button(emoji='✅', label='Confirm', style=discord.ButtonStyle.green)
     async def _accept(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.edit_original_message(embed=discord.Embed(description=f'{Data.EMOTE_LOAD} '
+        await interaction.response.send_message(embed=discord.Embed(description=f'{Data.EMOTE_LOAD} '
                                                                                 'Preparing for a new game..'))
         self.value = True
         self.stop()
 
     @discord.ui.button(emoji='❌', label='Cancel', style=discord.ButtonStyle.grey)
     async def _deny(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.edit_original_message(embed=discord.Embed(description=f'{Data.EMOTE_LOAD} Cancelling..'))
+        await interaction.response.send_message(embed=discord.Embed(description=f'{Data.EMOTE_LOAD} Cancelling..'),
+                                                ephemeral=True)
         self.value = False
         self.stop()
 
