@@ -41,7 +41,7 @@ class Says(commands.GroupCog, name='says'):
 
     # Slash commands
 
-    @app_commands.command(name='start')
+    @app_commands.command(name='start', description='Starts a new game of Says')
     @app_commands.checks.has_role(Data.ROLE_MEMBER)
     async def _start(self, interaction: discord.Interaction):
         view = Confirm()
@@ -49,11 +49,11 @@ class Says(commands.GroupCog, name='says'):
         await view.wait()
 
         if view.value is None:
-            await interaction.response.send_message(content=':clock3: Timed out', ephemeral=True)
+            await interaction.edit_original_message(content=':clock3: Timed out')
         elif view.value:
-            await interaction.response.send_message(content=':eyes: u found me')
+            await interaction.edit_original_message(content=':eyes: coming soon')
         else:
-            await interaction.response.send_message(content=':x: Cancelled', ephemeral=True)
+            await interaction.edit_original_message(content=':x: Cancelled')
 
 
 async def setup(bot: commands.Bot):
