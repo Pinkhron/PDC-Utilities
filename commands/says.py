@@ -15,12 +15,13 @@ _confirmation = discord.Embed(title='Are you sure?',
                                           'you blacklisted from using Says as host for a week!**',
                               color=0x00FF00)
 
-_new = discord.Embed(title='Welcome to Says!', description='The host will be in full control of the game with host '
-                                                           'slash commands. To invite players to the game use '
-                                                           '`/says invite <usr>`, it will send a confirmation DM to '
-                                                           'the user to whom you (host) invited. To read more on how '
-                                                           'to play please check the pins or '
-                                                           f'[click here]({_readme}).',
+_new = discord.Embed(title=':video_game: Welcome to Says!',
+                     description='The host will be in full control of the game '
+                                 'with host slash commands. To invite players to the game use'
+                                 ' `/says invite <usr>`, it will send a confirmation DM to '
+                                 'the user to whom you (host) invited. To read more on how '
+                                 'to play please check the pins or '
+                                 f'[click here]({_readme}).',
                      color=0x00FF00)
 _new.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
