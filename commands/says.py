@@ -21,15 +21,14 @@ class Confirm(discord.ui.View):
 
     @discord.ui.button(emoji='✅', label='Confirm', style=discord.ButtonStyle.green)
     async def _accept(self, interaction: discord.Interaction):
-        await interaction.response.send_message(embed=discord.Embed(description=f'{Data.EMOTE_LOAD} '
+        await interaction.edit_original_message(embed=discord.Embed(description=f'{Data.EMOTE_LOAD} '
                                                                                 'Preparing for a new game..'))
         self.value = True
         self.stop()
 
     @discord.ui.button(emoji='❌', label='Cancel', style=discord.ButtonStyle.red)
     async def _deny(self, interaction: discord.Interaction):
-        await interaction.response.send_message(embed=discord.Embed(description=f'{Data.EMOTE_LOAD} Cancelling..'),
-                                                ephemeral=True)
+        await interaction.edit_original_message(embed=discord.Embed(description=f'{Data.EMOTE_LOAD} Cancelling..'))
         self.value = False
         self.stop()
 
@@ -42,6 +41,7 @@ class Says(commands.GroupCog, name='says'):
     # Slash commands
 
     @app_commands.command(name='start', description='Starts a new game of Says')
+    @app_commands.checks.cooldown(1, 30, key=lambda i: i.user.id)
     @app_commands.checks.has_role(Data.ROLE_MEMBER)
     async def _start(self, interaction: discord.Interaction):
         view = Confirm()
