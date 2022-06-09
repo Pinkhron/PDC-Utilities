@@ -3,17 +3,15 @@
 </p>
 <h1 align="center" style="margin-top: 0px;">PDC Utilities</h1>
 
-<p align="center" style="margin-bottom 0px !important;">
-
-Made with ❤️ by Pinkhron using [Python], [PyCharm] & [Discord.py]
-
+<p align="center" style="margin-bottom 0px !important;">Made with ❤️ by Pinkhron using 
+    <a href="https://www.python.org">Python</a>, 
+    <a href="https://www.jetbrains.com/pycharm/">PyCharm</a> & 
+    <a href="https://github.com/Rapptz/discord.py">Discord.py</a>
 </p>
 
 <div align="center">
-
-    [![License](https://img.shields.io/github/license/Pinkhron/PDC-Utilities?style=for-the-badge)](https://github.com/Pinkhron/PDC-Utilities/blob/main/LICENSE)
-    [![Size](https://img.shields.io/github/repo-size/Pinkhron/PDC-Utilities?style=for-the-badge)](https://github.com/Pinkhron/PDC-Utilities)
-
+    <img src="https://img.shields.io/github/repo-size/Pinkhron/PDC-Utilities?style=for-the-badge" alt="Repo size">
+    <img src="https://img.shields.io/github/license/Pinkhron/PDC-Utilities?style=for-the-badge" alt="License">
 </div>
 
 <h2 align="center" style="margin-bottom 0px !important;">Changelog</h2>
@@ -31,7 +29,3 @@ Made with ❤️ by Pinkhron using [Python], [PyCharm] & [Discord.py]
 - Cleaner project files
 
 Copyright © PDC Utilities 2022. All rights reserved.
-
-[Python]: https://www.python.org
-[PyCharm]: https://www.jetbrains.com/pycharm/
-[Discord.py]: https://github.com/Rapptz/discord.py
