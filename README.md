@@ -1,14 +1,21 @@
-# PDC-Utilities
+<p align="center" style="margin-bottom: 0px !important;">
+    <img src="https://pinkhron.s3.amazonaws.com/PDC/icons/bot.png" alt="PDC Utilities Logo" align="center">
+</p>
+<h1 align="center" style="margin-top: 0px;">PDC Utilities</h1>
 
-Open source PDC Utilities made with ❤️ using [Python], [PyCharm] & [Discord.py]
+<p align="center" style="margin-bottom 0px !important;">Made with ❤️ by Pinkhron using [Python], [PyCharm] & [Discord.py]</p>
 
-Using PEP-8 Formatting
+<div align="center">
+    [![License](https://img.shields.io/github/license/Pinkhron/PDC-Utilities?style=for-the-badge)]
+    [![Size](https://img.shields.io/github/repo-size/Pinkhron/PDC-Utilities?style=for-the-badge)]
+</div>
 
-## Changelog
+<h2 align="center" style="margin-bottom 0px !important;">Changelog</h2>
 
-`v2.1.0`:
+`v2.1.1`:
 
-- Added music commands
+- [data.py](https://github.com/Pinkhron/PDC-Utilities/blob/3fd9b846b37d0e961a86d49ad07808424d708ed0/data.py) no longer uses JSON variables
+- Updated README.md
 
 `v2.0.0`:
 

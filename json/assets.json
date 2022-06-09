@@ -1,9 +1,0 @@
-{
-    "version": "2.1.0b",
-
-    "icons": {
-        "bot": "https://pinkhron.s3.amazonaws.com/PDC/icons/bot.png",
-        "default": "https://pinkhron.s3.amazonaws.com/PDC/icons/default.png",
-        "confetti": "https://pinkhron.s3.amazonaws.com/PDC/icons/confetti.png"
-    }
-}

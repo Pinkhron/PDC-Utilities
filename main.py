@@ -46,9 +46,10 @@ async def on_message(message):
 
         _mention = discord.Embed(title=f'\U0001F44B Hey, {message.author.name}#{message.author.discriminator}!',
                                  description='PDC Utilities is an open-source bot made by <@597178180176052234> to '
-                                             'make managing PDC easier. Run `>help` for a list of commands. '
-                                             'PDC Utilities was made with Python '
-                                             '& Discord.py\n\n'
+                                             'make managing PDC easier. Click'
+                                             '[**here**](https://discord.com/channels/966934902878646323/966958813565550592/984320243830755349) '
+                                             f'or check pins in <#{Data.TXT_BOTS}> for a list of commands. '
+                                             'PDC Utilities was made with Python & Discord.py\n\n'
                                              f'- [Python](https://python.org) | v{platform.python_version()}\n'
                                              f'- [Discord.py](https://github.com/Rapptz/discord.py) | v{discord.__version__}\n'
                                              f'- [PDC Utilities](https://github.com/Pinkhron/PDC-Utilities) | v{version}\n'
