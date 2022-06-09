@@ -20,7 +20,8 @@ _new = discord.Embed(title='Welcome to Says!', description='The host will be in 
                                                            '`/says invite <usr>`, it will send a confirmation DM to '
                                                            'the user to whom you (host) invited. To read more on how '
                                                            'to play please check the pins or '
-                                                           f'[click here]({_readme}).')
+                                                           f'[click here]({_readme}).',
+                     color=0x00FF00)
 _new.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
 
