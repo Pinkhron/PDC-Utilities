@@ -85,7 +85,7 @@ class Says(commands.GroupCog, name='says'):
 
     @app_commands.command(name='start', description='Starts a new game of Says')
     @app_commands.checks.cooldown(1, 5, key=lambda i: i.user.id)
-    @app_commands.checks.has_role(Data.ROLE_MEMBER)
+    @app_commands.checks.has_role(Data.ROLE_ORGANIZER)
     async def _start(self, interaction: discord.Interaction):
         if self.running:
             await interaction.response.send_message(content='Sorry, but a game is already running. '
