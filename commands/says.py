@@ -19,7 +19,7 @@ _confirmation = discord.Embed(title='Are you sure?',
                               color=0x00FF00)
 _confirmation.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
-_new = discord.Embed(title=':video_game: Welcome to PDC Says!',
+_new = discord.Embed(title=':video_game: Welcome to PDC\'s Says!',
                      description='The host will be in full control of the game '
                                  'with host slash commands. To invite players to the game use'
                                  ' `/says invite <usr>`, it will send a confirmation DM to '
@@ -102,7 +102,7 @@ class Says(commands.GroupCog, name='says'):
                                            f'start a game as a host. [Click here]({_readme}) for more info on Says.')
         _ready.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
-        if not self.running:
+        if self.running == (True or None):
             await interaction.response.send_message(content='Sorry, but a game is already running. '
                                                             'Please try again later.', ephemeral=True)
 
