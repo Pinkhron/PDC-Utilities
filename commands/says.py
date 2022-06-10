@@ -81,13 +81,6 @@ class Says(commands.GroupCog, name='says'):
         self.invitees = []
         self.eliminated = []
 
-    # Extra functions
-
-    def soft_end(self):
-        self.host = 0
-        await asyncio.sleep(300)
-        self.running = False
-
     # Slash commands (CHANGE ROLE ON RELEASE)
 
     @app_commands.command(name='start', description='Starts a new game of Says')
