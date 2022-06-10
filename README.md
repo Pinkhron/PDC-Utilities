@@ -19,9 +19,13 @@
 
 <h2 align="center" style="margin-bottom 0px !important;">Changelog</h2>
 
+`v2.3.1`:
+
+- Says | Multi-host support
+
 `v2.3.0`:
 
-- PDC Says commands Introduced
+- PDC Says commands Introduced (Beta)
 
 `v2.1.1`:
 

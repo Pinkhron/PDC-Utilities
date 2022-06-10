@@ -1,4 +1,5 @@
 import asyncio
+import datetime
 
 from discord import app_commands
 from discord.ext import commands
@@ -16,6 +17,7 @@ _confirmation = discord.Embed(title='Are you sure?',
                                           ' make sure this wasn\'t a mistake. **Starting a game for no reason will get '
                                           'you blacklisted from using Says as host for a week!**',
                               color=0x00FF00)
+_confirmation.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
 _new = discord.Embed(title=':video_game: Welcome to PDC Says!',
                      description='The host will be in full control of the game '
@@ -26,8 +28,6 @@ _new = discord.Embed(title=':video_game: Welcome to PDC Says!',
                                  f'[click here]({_readme}).',
                      color=0x00FF00)
 _new.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
-
-_sleep = discord.Embed()
 
 
 class Confirm(discord.ui.View):  # Confirm game start
@@ -75,13 +75,27 @@ class Says(commands.GroupCog, name='says'):
 
         # Game variables
 
-        self.running = False
+        self.running = False  # False: Ready | True: Game running | None: Dormant
+        self.time = 0
+
         self.host = 0
+        self.cohost = []
         self.participants = []
         self.invitees = []
         self.eliminated = []
 
-    # Slash commands (CHANGE ROLE ON RELEASE)
+    async def end(self):
+        _dormant = discord.Embed(title=':zzz: This channel has been marked as dormant.',
+                                 description='This channel is now marked as dormant due to an inactive Says game or a  '
+                                             'game the recently ended. You will not be able to launch another game of '
+                                             'Says for the next `5 minutes`. In the meantime, you can read how to play '
+                                             f'Says [**here**]({_readme}).')
+        _dormant.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
+
+        await self.bot.get_channel(Data.TXT_SAYS).send(embed=_dormant)
+        await asyncio.sleep(300)
+
+    # Host & co-host commands
 
     @app_commands.command(name='start', description='Starts a new game of Says')
     @app_commands.checks.cooldown(1, 5, key=lambda i: i.user.id)
@@ -102,12 +116,19 @@ class Says(commands.GroupCog, name='says'):
             await interaction.user.add_roles(host)
 
             self.running = True  # Set game to running
+            self.time = 3600
             self.host = interaction.user.id  # Set host
 
             channel = self.bot.get_channel(Data.TXT_SAYS)
             await channel.send(content=f'**:game_die: A new game of PDC Says has begun!** Host: '
                                        f'<@!{interaction.user.id}>',
                                embed=_new)
+
+            while self.time > 0:
+                self.timer = datetime.timedelta(seconds=self.time)
+                await asyncio.sleep(5)
+                self.time -= 5
+            await self.end()
         else:  # Cancelled
             return
 
@@ -116,15 +137,17 @@ class Says(commands.GroupCog, name='says'):
     @app_commands.checks.has_role(Data.ROLE_SAYS_HOST)
     async def _invite(self, interaction: discord.Interaction, usr1: discord.Member):
         _invite = discord.Embed(title=':video_game: You have been invited to a game of PDC Says',
-                                description=f'<@!{self.host}> is hosting a game of PDC Says and has '
+                                description=f'<@!{interaction.user.id}> is hosting a game of PDC Says and has '
                                             f'invited you to play! You can accept/decline the invite with the buttons '
-                                            f'below.')  # Invite embed
+                                            f'below.',
+                                color=0xCC8899)  # Invite embed
         _invite.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
         _timeout = discord.Embed(title=':clock3: Invite timed out!', description=f'<@!{usr1.id}>\'s invite has been '
                                                                                  f'invalidated due to a response not '
                                                                                  f'being sent. If this was a mistake, '
-                                                                                 f'invite them again.')
+                                                                                 f'invite them again.',
+                                 color=0x808080)
         _timeout.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
         _accepted = discord.Embed(title=':grin: Invite accepted!', description=f'<@!{usr1.id}> Has accepted your game '
@@ -142,7 +165,7 @@ class Says(commands.GroupCog, name='says'):
                                                             'user has already accepted your invite or one had '
                                                             'already been sent out.')
             return
-        elif usr1.id == self.host:
+        elif usr1.id in self.host:
             await interaction.response.send_message(content=':x: You cannot invite a host! :clown:')
             return
 
@@ -152,7 +175,7 @@ class Says(commands.GroupCog, name='says'):
         channel = self.bot.get_channel(Data.TXT_SAYS)
 
         await dm.send(embed=_invite, view=view)
-        await interaction.response.send_message(content=f'<@!{self.host}>',
+        await interaction.response.send_message(content=f'<@!{interaction.user.id}>',
                                                 embed=discord.Embed(description='<a:PDC_Success:981093316114399252> '
                                                                                 f'Successfully invited <@!{usr1.id}>!'))
         await view.wait()
@@ -160,60 +183,31 @@ class Says(commands.GroupCog, name='says'):
 
         if view.value is None:
             await dm.send(':clock3: Timed out')
-            await channel.send(content=f'<@!{self.host}>', embed=_timeout)
+            await channel.send(content=f'<@!{interaction.user.id}>', embed=_timeout)
             self.invitees.remove(usr1.id)
         elif view.value:
-            await channel.send(content=f'<@!{self.host}>', embed=_accepted)
+            await channel.send(content=f'<@!{interaction.user.id}>', embed=_accepted)
             self.invitees.remove(usr1.id)
             self.participants.append(usr1.id)
 
             participant = get(interaction.guild.roles, id=Data.ROLE_SAYS_PARTICIPANT)
             await usr1.add_roles(participant)
         else:
-            await channel.send(content=f'<@!{self.host}>', embed=_declined)
+            await channel.send(content=f'<@!{interaction.user.id}>', embed=_declined)
             self.invitees.remove(usr1.id)
             return
 
-    @app_commands.command(name='eliminate', description='HOST: Eliminates a player from the game')
+    # Participant commands
+
+    @app_commands.command(name='time', description='EVERYONE: Shows the amount of time left on your game')
     @app_commands.checks.cooldown(1, 2, key=lambda i: i.user.id)
-    @app_commands.checks.has_role(Data.ROLE_SAYS_HOST)
-    async def _eliminate(self, interaction: discord.Interaction, usr: discord.Member):
-        _eliminate = discord.Embed(title=':x: User has been eliminated!',
-                                   description=f'<@!{usr.id}> has been successfully eliminated from the game')
-        _eliminate.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
-
-        if usr.id == self.host:
-            await interaction.response.send_message(content=':x: You cannot eliminate a host!')
-            return
-        elif not usr.id in self.participants:
-            await interaction.response.send_message(content=':x: User is not playing PDC Says.')
-            return
-
-        self.participants.remove(usr.id)
-        self.eliminated.append(usr.id)
-
-    @app_commands.command(name='revive', description='HOST: Brings back user from elimination')
-    @app_commands.checks.cooldown(1, 2, key=lambda i: i.user.id)
-    @app_commands.checks.has_role(Data.ROLE_SAYS_HOST)
-    async def _revive(self, interaction: discord.Interaction, usr: discord.Member):
-        _revive = discord.Embed(title=':white_check_mark: User had been revived!',
-                                description=f'<@!{usr.id}> has been successfully revived!')
-        _revive.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
-
-        if usr.id == self.host:
-            await interaction.response.send_message(content=':x: You cannot revive a host!')
-            return
-        elif not usr.id in self.eliminated:
-            await interaction.response.send_message(content=':x: User is not eliminated.')
-            return
-
-        self.eliminated.remove(usr.id)
-        self.participants.append(usr.id)
+    @app_commands.checks.has_any_role(Data.ROLE_SAYS_HOST, Data.ROLE_SAYS_COHOST, Data.ROLE_SAYS_PARTICIPANT)
+    async def _time(self, interaction: discord.Interaction):
+        await interaction.response.send_message(embed=discord.Embed(title=':clock3: Time remaining..',
+                                                                    description=self.timer))
 
     # Error handling
 
-    @_revive.error
-    @_eliminate.error
     @_invite.error
     @_start.error
     async def err(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
