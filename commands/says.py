@@ -17,7 +17,7 @@ _confirmation = discord.Embed(title='Are you sure?',
                                           'you blacklisted from using Says as host for a week!**',
                               color=0x00FF00)
 
-_new = discord.Embed(title=':video_game: Welcome to Says!',
+_new = discord.Embed(title=':video_game: Welcome to PDC Says!',
                      description='The host will be in full control of the game '
                                  'with host slash commands. To invite players to the game use'
                                  ' `/says invite <usr>`, it will send a confirmation DM to '
@@ -144,27 +144,29 @@ class Says(commands.GroupCog, name='says'):
                                                                 'already been sent out.')
 
         view = Invite()
-        dm = await usr1.create_dm()
-        await dm.send(embed=_invite, view=view)
-        await view.wait()
-        self.invitees.append(usr1.id)
 
+        dm = await usr1.create_dm()
+        channel = self.bot.get_channel(Data.TXT_SAYS)
+
+        await dm.send(embed=_invite, view=view)
         await interaction.response.send_message(content=f'<@!{self.host}>',
                                                 embed=discord.Embed(description='<a:PDC_Success:981093316114399252> '
                                                                                 'Successfully invited user!'))
+        await view.wait()
+        self.invitees.append(usr1.id)
 
         if view.value is None:
             await dm.send(':clock3: Timed out')
-            await interaction.response.send_message(content=f'<@!{self.host}>', embed=_timeout)
+            await channel.send(content=f'<@!{self.host}>', embed=_timeout)
 
             for i in self.invitees:
                 if usr1.id == self.invitees[i]:
                     self.invitees.pop(i)
         elif view.value:
-            await interaction.response.send_message(content=f'<@!{self.host}>', embed=_accepted)
+            await channel.send(content=f'<@!{self.host}>', embed=_accepted)
             self.participants.append(usr1.id)
         else:
-            await interaction.response.send_message(content=f'<@!{self.host}>', embed=_declined)
+            await channel.send(content=f'<@!{self.host}>', embed=_declined)
 
             for i in self.invitees:
                 if usr1.id == self.invitees[i]:
