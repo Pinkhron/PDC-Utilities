@@ -36,7 +36,7 @@ class Confirm(discord.ui.View):  # Confirm game start
         self.value = None
 
     @discord.ui.button(emoji='✅', label='Confirm', style=discord.ButtonStyle.green)
-    async def _confirm(self, interaction: discord.Interaction):
+    async def _confirm(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message(content=f'<@!{interaction.user.id}>',
                                                 embed=discord.Embed(description=f'{Data.EMOTE_LOAD} Starting a new game'
                                                                                 '..'))
@@ -44,7 +44,7 @@ class Confirm(discord.ui.View):  # Confirm game start
         self.stop()
 
     @discord.ui.button(emoji='❌', label='Cancel', style=discord.ButtonStyle.grey)
-    async def _cancel(self, interaction: discord.Interaction):
+    async def _cancel(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message(content=f'Cancelled', ephemeral=True)
         self.value = False
         self.stop()
@@ -56,13 +56,13 @@ class Invite(discord.ui.View):  # Accept/decline invite
         self.value = None
 
     @discord.ui.button(emoji='✅', label='Accept', style=discord.ButtonStyle.green)
-    async def _accept(self, interaction: discord.Interaction):
+    async def _accept(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message(embed=discord.Embed(description=':grin: Successfully accepted invite!'))
         self.value = True
         self.stop()
 
     @discord.ui.button(emoji='❌', label='Decline', style=discord.ButtonStyle.grey)
-    async def _decline(self, interaction: discord.Interaction):
+    async def _decline(self, interaction: discord.Interaction, button: discord.ui.Button):
         await interaction.response.send_message(embed=discord.Embed(description=':x: Successfully declined invite'))
         self.value = False
         self.stop()
