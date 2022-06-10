@@ -84,7 +84,12 @@ class Says(commands.GroupCog, name='says'):
         self.invitees = []
         self.eliminated = []
 
-    async def end(self):
+    # Host & co-host commands
+
+    @app_commands.command(name='start', description='Starts a new game of Says')
+    @app_commands.checks.cooldown(1, 5, key=lambda i: i.user.id)
+    @app_commands.checks.has_role(Data.ROLE_ORGANIZER)
+    async def _start(self, interaction: discord.Interaction):
         _dormant = discord.Embed(title=':zzz: This channel has been marked as dormant.',
                                  description='This channel is now marked as dormant due to an inactive Says game or a  '
                                              'game the recently ended. You will not be able to launch another game of '
@@ -92,16 +97,12 @@ class Says(commands.GroupCog, name='says'):
                                              f'Says [**here**]({_readme}).')
         _dormant.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
-        await self.bot.get_channel(Data.TXT_SAYS).send(embed=_dormant)
-        await asyncio.sleep(300)
+        _ready = discord.Embed(title=f':white_check_mark: <#{Data.TXT_SAYS}> is now ready!',
+                               description=f'<#{Data.TXT_SAYS}> is now available to be played! Run `/says start` to '
+                                           f'start a game as a host. [Click here]({_readme}) for more info on Says.')
+        _ready.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
-    # Host & co-host commands
-
-    @app_commands.command(name='start', description='Starts a new game of Says')
-    @app_commands.checks.cooldown(1, 5, key=lambda i: i.user.id)
-    @app_commands.checks.has_role(Data.ROLE_ORGANIZER)
-    async def _start(self, interaction: discord.Interaction):
-        if self.running:
+        if not self.running:
             await interaction.response.send_message(content='Sorry, but a game is already running. '
                                                             'Please try again later.', ephemeral=True)
 
@@ -128,9 +129,19 @@ class Says(commands.GroupCog, name='says'):
                 self.timer = datetime.timedelta(seconds=self.time)
                 await asyncio.sleep(5)
                 self.time -= 5
-            await self.end()
+            await self.bot.get_channel(Data.TXT_SAYS).send(embed=_dormant)
+            self.running = None
+            await asyncio.sleep(300)
+            await self.bot.get_channel(Data.TXT_SAYS).send(embed=_ready)
         else:  # Cancelled
             return
+
+    @app_commands.command(name='end', description='HOST: Ends game')
+    @app_commands.checks.cooldown(1, 10, key=lambda i: i.user.id)
+    @app_commands.checks.has_role(Data.ROLE_SAYS_HOST)
+    async def _end(self, interaction: discord.Interaction):
+        if interaction.user.id == self.host:
+            self.time = 0
 
     @app_commands.command(name='invite', description='HOST: Invites a user into the game')
     @app_commands.checks.cooldown(1, 2, key=lambda i: i.user.id)
@@ -197,11 +208,10 @@ class Says(commands.GroupCog, name='says'):
             self.invitees.remove(usr1.id)
             return
 
-    # Participant commands
+    # @everyone commands
 
     @app_commands.command(name='time', description='EVERYONE: Shows the amount of time left on your game')
     @app_commands.checks.cooldown(1, 2, key=lambda i: i.user.id)
-    @app_commands.checks.has_any_role(Data.ROLE_SAYS_HOST, Data.ROLE_SAYS_COHOST, Data.ROLE_SAYS_PARTICIPANT)
     async def _time(self, interaction: discord.Interaction):
         await interaction.response.send_message(embed=discord.Embed(title=':clock3: Time remaining..',
                                                                     description=self.timer))
