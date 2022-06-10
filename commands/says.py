@@ -127,8 +127,8 @@ class Says(commands.GroupCog, name='says'):
 
             while self.time > 0:
                 self.timer = datetime.timedelta(seconds=self.time)
-                await asyncio.sleep(5)
-                self.time -= 5
+                await asyncio.sleep(1)
+                self.time -= 1
             await self.bot.get_channel(Data.TXT_SAYS).send(embed=_dormant)
             self.running = None
             await asyncio.sleep(300)
@@ -142,6 +142,7 @@ class Says(commands.GroupCog, name='says'):
     async def _end(self, interaction: discord.Interaction):
         if interaction.user.id == self.host:
             self.time = 0
+            await interaction.response.send_message(content='Ended game successfully!')
 
     @app_commands.command(name='invite', description='HOST: Invites a user into the game')
     @app_commands.checks.cooldown(1, 2, key=lambda i: i.user.id)
