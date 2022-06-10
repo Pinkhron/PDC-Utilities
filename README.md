@@ -19,6 +19,10 @@
 
 <h2 align="center" style="margin-bottom 0px !important;">Changelog</h2>
 
+`v2.3.0`:
+
+- PDC Says commands Introduced
+
 `v2.1.1`:
 
 - [data.py](https://github.com/Pinkhron/PDC-Utilities/blob/3fd9b846b37d0e961a86d49ad07808424d708ed0/data.py) no longer uses JSON variables

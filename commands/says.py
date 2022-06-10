@@ -85,7 +85,7 @@ class Says(commands.GroupCog, name='says'):
 
     @app_commands.command(name='start', description='Starts a new game of Says')
     @app_commands.checks.cooldown(1, 5, key=lambda i: i.user.id)
-    @app_commands.checks.has_role(Data.ROLE_ORGANIZER)
+    @app_commands.checks.has_role(Data.ROLE_MEMBER)
     async def _start(self, interaction: discord.Interaction):
         if self.running:
             await interaction.response.send_message(content='Sorry, but a game is already running. '
@@ -143,7 +143,7 @@ class Says(commands.GroupCog, name='says'):
                                                             'already been sent out.')
             return
         elif usr1.id == self.host:
-            await interaction.response.send_message(content=':x: You cannot invite yourself :clown:')
+            await interaction.response.send_message(content=':x: You cannot invite a host! :clown:')
             return
 
         view = Invite()
@@ -174,8 +174,46 @@ class Says(commands.GroupCog, name='says'):
             self.invitees.remove(usr1.id)
             return
 
+    @app_commands.command(name='eliminate', description='HOST: Eliminates a player from the game')
+    @app_commands.checks.cooldown(1, 2, key=lambda i: i.user.id)
+    @app_commands.checks.has_role(Data.ROLE_SAYS_HOST)
+    async def _eliminate(self, interaction: discord.Interaction, usr: discord.Member):
+        _eliminate = discord.Embed(title=':x: User has been eliminated!',
+                                   description=f'<@!{usr.id}> has been successfully eliminated from the game')
+        _eliminate.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
+
+        if usr.id == self.host:
+            await interaction.response.send_message(content=':x: You cannot eliminate a host!')
+            return
+        elif not usr.id in self.participants:
+            await interaction.response.send_message(content=':x: User is not playing PDC Says.')
+            return
+
+        self.participants.remove(usr.id)
+        self.eliminated.append(usr.id)
+
+    @app_commands.command(name='revive', description='HOST: Brings back user from elimination')
+    @app_commands.checks.cooldown(1, 2, key=lambda i: i.user.id)
+    @app_commands.checks.has_role(Data.ROLE_SAYS_HOST)
+    async def _revive(self, interaction: discord.Interaction, usr: discord.Member):
+        _revive = discord.Embed(title=':white_check_mark: User had been revived!',
+                                description=f'<@!{usr.id}> has been successfully revived!')
+        _revive.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
+
+        if usr.id == self.host:
+            await interaction.response.send_message(content=':x: You cannot revive a host!')
+            return
+        elif not usr.id in self.eliminated:
+            await interaction.response.send_message(content=':x: User is not eliminated.')
+            return
+
+        self.eliminated.remove(usr.id)
+        self.participants.append(usr.id)
+
     # Error handling
 
+    @_revive.error
+    @_eliminate.error
     @_invite.error
     @_start.error
     async def err(self, interaction: discord.Interaction, error: app_commands.AppCommandError):
