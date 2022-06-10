@@ -84,7 +84,7 @@ class Says(commands.GroupCog, name='says'):
     # Slash commands (CHANGE ROLE ON RELEASE)
 
     @app_commands.command(name='start', description='Starts a new game of Says')
-    @app_commands.checks.cooldown(1, 30, key=lambda i: i.user.id)
+    @app_commands.checks.cooldown(1, 5, key=lambda i: i.user.id)
     @app_commands.checks.has_role(Data.ROLE_ORGANIZER)
     async def _start(self, interaction: discord.Interaction):
         if self.running:
@@ -148,6 +148,10 @@ class Says(commands.GroupCog, name='says'):
         await dm.send(embed=_invite, view=view)
         await view.wait()
         self.invitees.append(usr1.id)
+
+        await interaction.response.send_message(content=f'<@!{self.host}>',
+                                                embed=discord.Embed(description='<a:PDC_Success:981093316114399252> '
+                                                                                'Successfully invited user!'))
 
         if view.value is None:
             await dm.send(':clock3: Timed out')
