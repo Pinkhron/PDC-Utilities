@@ -98,7 +98,7 @@ class Says(commands.GroupCog, name='says'):
         if view.value is None:  # Timeout
             await interaction.response.send_message(content=':clock3: Timed out', ephemeral=True)
         elif view.value:  # Start game
-            host = get(interaction.guild.roles, name="SAYS HOST")  # Give host role
+            host = get(interaction.guild.roles, id=Data.ROLE_SAYS_HOST)  # Give host role
             await interaction.user.add_roles(host)
 
             self.running = True  # Set game to running
@@ -114,7 +114,7 @@ class Says(commands.GroupCog, name='says'):
     @app_commands.command(name='invite', description='HOST: Invites a user into the game')
     @app_commands.checks.cooldown(1, 2, key=lambda i: i.user.id)
     @app_commands.checks.has_role(Data.ROLE_SAYS_HOST)
-    async def _invite(self, interaction: discord.Interaction, usr1: discord.User):
+    async def _invite(self, interaction: discord.Interaction, usr1: discord.Member):
         _invite = discord.Embed(title='You have been invited to a game of PDC Says',
                                 description=f'<@!{self.host}> is hosting a game of PDC Says and has '
                                             f'invited you to play! You can accept/decline the invite with the buttons '
@@ -137,11 +137,10 @@ class Says(commands.GroupCog, name='says'):
                                                                                  f'again unless this was a mistake!')
         _declined.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
-        for i in self.invitees:
-            if i == self.invitees[i]:
-                await interaction.response.send_message(content=':x: Failed to invite user. This error shows when the '
-                                                                'user has already accepted your invite or one had '
-                                                                'already been sent out.')
+        if usr1.id in (self.invitees or self.participants):
+            await interaction.response.send_message(content=':x: Failed to invite user. This error shows when the '
+                                                            'user has already accepted your invite or one had '
+                                                            'already been sent out.')
 
         view = Invite()
 
@@ -151,26 +150,24 @@ class Says(commands.GroupCog, name='says'):
         await dm.send(embed=_invite, view=view)
         await interaction.response.send_message(content=f'<@!{self.host}>',
                                                 embed=discord.Embed(description='<a:PDC_Success:981093316114399252> '
-                                                                                'Successfully invited user!'))
+                                                                                f'Successfully invited <@!{usr1.id}>!'))
         await view.wait()
         self.invitees.append(usr1.id)
 
         if view.value is None:
             await dm.send(':clock3: Timed out')
             await channel.send(content=f'<@!{self.host}>', embed=_timeout)
-
-            for i in self.invitees:
-                if usr1.id == self.invitees[i]:
-                    self.invitees.pop(i)
+            self.invitees.remove(usr1.id)
         elif view.value:
             await channel.send(content=f'<@!{self.host}>', embed=_accepted)
+            self.invitees.remove(usr1.id)
             self.participants.append(usr1.id)
+
+            participant = get(interaction.guild.roles, id=Data.ROLE_SAYS_PARTICIPANT)
+            await usr1.add_roles(participant)
         else:
             await channel.send(content=f'<@!{self.host}>', embed=_declined)
-
-            for i in self.invitees:
-                if usr1.id == self.invitees[i]:
-                    self.invitees.pop(i)
+            self.invitees.remove(usr1.id)
             return
 
     # Error handling
