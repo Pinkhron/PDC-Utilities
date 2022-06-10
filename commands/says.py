@@ -115,7 +115,7 @@ class Says(commands.GroupCog, name='says'):
     @app_commands.checks.cooldown(1, 2, key=lambda i: i.user.id)
     @app_commands.checks.has_role(Data.ROLE_SAYS_HOST)
     async def _invite(self, interaction: discord.Interaction, usr1: discord.Member):
-        _invite = discord.Embed(title='You have been invited to a game of PDC Says',
+        _invite = discord.Embed(title=':video_game: You have been invited to a game of PDC Says',
                                 description=f'<@!{self.host}> is hosting a game of PDC Says and has '
                                             f'invited you to play! You can accept/decline the invite with the buttons '
                                             f'below.')  # Invite embed
@@ -141,6 +141,10 @@ class Says(commands.GroupCog, name='says'):
             await interaction.response.send_message(content=':x: Failed to invite user. This error shows when the '
                                                             'user has already accepted your invite or one had '
                                                             'already been sent out.')
+            return
+        elif usr1.id == self.host:
+            await interaction.response.send_message(content=':x: You cannot invite yourself :clown:')
+            return
 
         view = Invite()
 
