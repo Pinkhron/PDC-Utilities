@@ -1,5 +1,7 @@
 import datetime
 import asyncio
+import random
+import os
 
 from discord import app_commands
 from discord.ext import commands
@@ -7,6 +9,10 @@ from discord.utils import get
 import discord
 
 from data import Data
+
+# File config
+
+random.seed(os.urandom(64))
 
 # Embeds
 
@@ -84,13 +90,11 @@ class Says(commands.GroupCog, name='says'):
         self.invitees = []
         self.eliminated = []
 
-    # Host & co-host commands
-
-    # END GAME REMOVE ROLE AND VARS
+    # Host
 
     @app_commands.command(name='start', description='Starts a new game of Says')
     @app_commands.checks.cooldown(1, 5, key=lambda i: i.user.id)
-    @app_commands.checks.has_role(Data.ROLE_ORGANIZER)
+    @app_commands.checks.has_role(Data.ROLE_MEMBER)
     async def _start(self, interaction: discord.Interaction):
         _dormant = discord.Embed(title=':zzz: This channel has been marked as dormant.',
                                  description='This channel is now marked as dormant due to an inactive Says game or a  '
@@ -224,21 +228,66 @@ class Says(commands.GroupCog, name='says'):
         await view.wait()
         self.invitees.append(usr1.id)
 
-        if view.value is None:
-            await dm.send(':clock3: Timed out')
-            await channel.send(content=f'<@!{interaction.user.id}>', embed=_timeout)
-            self.invitees.remove(usr1.id)
-        elif view.value:
-            await channel.send(content=f'<@!{interaction.user.id}>', embed=_accepted)
-            self.invitees.remove(usr1.id)
-            self.participants.append(usr1.id)
-
-            participant = get(interaction.guild.roles, id=Data.ROLE_SAYS_PARTICIPANT)
-            await usr1.add_roles(participant)
+        if not self.running:
+            await dm.send(':x: Sorry, but the game you were trying to join has ended. Please try again later or host '
+                          'your own game of PDC Says with `/says start`.')
         else:
-            await channel.send(content=f'<@!{interaction.user.id}>', embed=_declined)
-            self.invitees.remove(usr1.id)
-            return
+            if view.value is None:
+                await dm.send(':clock3: Timed out')
+                await channel.send(content=f'<@!{interaction.user.id}>', embed=_timeout)
+                self.invitees.remove(usr1.id)
+            elif view.value:
+                await channel.send(content=f'<@!{interaction.user.id}>', embed=_accepted)
+                self.invitees.remove(usr1.id)
+                self.participants.append(usr1.id)
+
+                participant = get(interaction.guild.roles, id=Data.ROLE_SAYS_PARTICIPANT)
+                await usr1.add_roles(participant)
+            else:
+                await channel.send(content=f'<@!{interaction.user.id}>', embed=_declined)
+                self.invitees.remove(usr1.id)
+                return
+
+    # Host & Co-Host commands
+
+    @app_commands.command(name='randuser', description='CO & HOST: Selects a random participant')
+    @app_commands.checks.has_any_role(Data.ROLE_SAYS_HOST, Data.ROLE_SAYS_COHOST)
+    async def _randuser(self, interaction: discord.Interaction):
+        rand_user = random.choice(self.participants)
+        user = get(interaction.guild.members, id=rand_user)
+
+        _random = discord.Embed(title=':game_die: Random Says participant',
+                                description=f'```{user.name}#{user.discriminator}```')
+        _random.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
+
+        await interaction.response.send_message(embed=_random)
+
+    @app_commands.command(name='eliminate', description='CO & HOST: Eliminates a user from Says')
+    @app_commands.checks.cooldown(1, 2, key=lambda i: i.user.id)
+    @app_commands.checks.has_any_role(Data.ROLE_SAYS_HOST, Data.ROLE_SAYS_COHOST)
+    async def _eliminate(self, interaction: discord.Interaction, usr: discord.Member):
+        par_role = get(interaction.guild.roles, id=Data.ROLE_SAYS_PARTICIPANT)
+        user = get(interaction.guild.members, id=usr.id)
+
+        await user.remove_roles(par_role)
+        self.participants.remove(usr.id)
+        self.eliminated.append(usr.id)
+        await interaction.response.send_message(embed=discord.Embed(description='<a:PDC_Success:981093316114399252> '
+                                                                                f'Successfully eliminated <@!{usr.id}>',
+                                                                    color=0xFF0000))
+
+    @app_commands.command(name='revive', description='CO & HOST: Revives a eliminated user')
+    @app_commands.checks.cooldown(1, 2, key=lambda i: i.user.id)
+    @app_commands.checks.has_any_role(Data.ROLE_SAYS_HOST, Data.ROLE_SAYS_COHOST)
+    async def _revive(self, interaction: discord.Interaction, usr: discord.Member):
+        par_role = get(interaction.guild.roles, id=Data.ROLE_SAYS_PARTICIPANT)
+        user = get(interaction.guild.members, id=usr.id)
+
+        await user.add_roles(par_role)
+        self.participants.append(usr.id)
+        self.eliminated.remove(usr.id)
+        await interaction.response.send_message(embed=discord.Embed(description='<a:PDC_Success:981093316114399252> '
+                                                                                f'Successfully revived <@!{usr.id}>'))
 
     # @everyone commands
 
