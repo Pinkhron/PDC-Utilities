@@ -22,6 +22,7 @@
 `v2.3.1`:
 
 - Says | Multi-host support
+- Says | Framework done
 
 `v2.3.0`:
 

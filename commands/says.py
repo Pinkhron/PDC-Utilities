@@ -209,9 +209,6 @@ class Says(commands.GroupCog, name='says'):
         elif usr1.id in self.host:
             await interaction.response.send_message(content=':x: You cannot invite a host! :clown:')
             return
-        elif self.running == (False or None):
-            await interaction.response.send_message(content=':x: Sorry, but the game you were trying to join has ended')
-            return
 
         view = Invite()
 
