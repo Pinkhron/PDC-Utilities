@@ -86,6 +86,8 @@ class Says(commands.GroupCog, name='says'):
 
     # Host & co-host commands
 
+    # END GAME REMOVE ROLE AND VARS
+
     @app_commands.command(name='start', description='Starts a new game of Says')
     @app_commands.checks.cooldown(1, 5, key=lambda i: i.user.id)
     @app_commands.checks.has_role(Data.ROLE_ORGANIZER)
@@ -97,14 +99,15 @@ class Says(commands.GroupCog, name='says'):
                                              f'Says [**here**]({_readme}).')
         _dormant.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
-        _ready = discord.Embed(title=f':white_check_mark: <#{Data.TXT_SAYS}> is now ready!',
+        _ready = discord.Embed(title=f':tada: Says is now ready!',
                                description=f'<#{Data.TXT_SAYS}> is now available to be played! Run `/says start` to '
-                                           f'start a game as a host. [Click here]({_readme}) for more info on Says.')
+                                           f'start a game as a host. [**Click here**]({_readme}) for more info on Says'
+                                           f'.')
         _ready.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
         if self.running == (True or None):
-            await interaction.response.send_message(content='Sorry, but a game is already running. '
-                                                            'Please try again later.', ephemeral=True)
+            await interaction.response.send_message(content='Sorry, but a game is already running or channel is dormant'
+                                                            ', please try again later.', ephemeral=True)
 
         view = Confirm()
         await interaction.response.send_message(embed=_confirmation, view=view, ephemeral=True)
@@ -117,7 +120,7 @@ class Says(commands.GroupCog, name='says'):
             await interaction.user.add_roles(host)
 
             self.running = True  # Set game to running
-            self.time = 3600
+            self.time = 3600  # 1 hour timer
             self.host = interaction.user.id  # Set host
 
             channel = self.bot.get_channel(Data.TXT_SAYS)
@@ -125,13 +128,39 @@ class Says(commands.GroupCog, name='says'):
                                        f'<@!{interaction.user.id}>',
                                embed=_new)
 
+            # End game & timer
+
             while self.time > 0:
                 self.timer = datetime.timedelta(seconds=self.time)
                 await asyncio.sleep(1)
                 self.time -= 1
             await self.bot.get_channel(Data.TXT_SAYS).send(embed=_dormant)
+
             self.running = None
+
+            host_role = get(interaction.guild.roles, id=Data.ROLE_SAYS_HOST)
+            host = get(interaction.guild.members, id=self.host)
+            await host.remove_roles(host_role)
+
+            self.host = 0
+
+            for mem in self.cohost:
+                co_role = get(interaction.guild.roles, id=Data.ROLE_SAYS_COHOST)
+                co = get(interaction.guild.members, id=mem)
+                await co.remove_roles(co_role)
+
+            self.cohost.clear()
+
+            for user in self.participants:
+                par_role = get(interaction.guild.roles, id=Data.ROLE_SAYS_PARTICIPANT)
+                par = get(interaction.guild.members, id=user)
+                await par.remove_roles(par_role)
+
+            self.participants.clear()
+            self.invitees.clear()
+            self.eliminated.clear()
             await asyncio.sleep(300)
+            self.running = False
             await self.bot.get_channel(Data.TXT_SAYS).send(embed=_ready)
         else:  # Cancelled
             return
@@ -142,7 +171,7 @@ class Says(commands.GroupCog, name='says'):
     async def _end(self, interaction: discord.Interaction):
         if interaction.user.id == self.host:
             self.time = 0
-            await interaction.response.send_message(content='Ended game successfully!')
+            await interaction.response.send_message(content=':tada: Ended game successfully!')
 
     @app_commands.command(name='invite', description='HOST: Invites a user into the game')
     @app_commands.checks.cooldown(1, 2, key=lambda i: i.user.id)
@@ -180,6 +209,9 @@ class Says(commands.GroupCog, name='says'):
         elif usr1.id in self.host:
             await interaction.response.send_message(content=':x: You cannot invite a host! :clown:')
             return
+        elif self.running == (False or None):
+            await interaction.response.send_message(content=':x: Sorry, but the game you were trying to join has ended')
+            return
 
         view = Invite()
 
@@ -215,7 +247,8 @@ class Says(commands.GroupCog, name='says'):
     @app_commands.checks.cooldown(1, 2, key=lambda i: i.user.id)
     async def _time(self, interaction: discord.Interaction):
         await interaction.response.send_message(embed=discord.Embed(title=':clock3: Time remaining..',
-                                                                    description=self.timer))
+                                                                    description=f'{self.timer} until the game auto-'
+                                                                                f'ends.'))
 
     # Error handling
 
