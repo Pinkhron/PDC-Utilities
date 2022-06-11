@@ -23,6 +23,7 @@
 
 - Says | Multi-host support
 - Says | Framework done
+- Says | Official stable release
 
 `v2.3.0`:
 
