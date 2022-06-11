@@ -106,8 +106,13 @@ class Says(commands.GroupCog, name='says'):
         _ready.set_footer(text=Data.FOOTER, icon_url=Data.LOGO_BOT)
 
         if self.running == (True or None):
-            await interaction.response.send_message(content='Sorry, but a game is already running or channel is dormant'
+            await interaction.response.send_message(content='Sorry, but a game is already running'
                                                             ', please try again later.', ephemeral=True)
+            return
+        elif self.running is None:
+            await interaction.response.send_message(content=f'Sorry, but <#{Data.TXT_SAYS}> is marked as dormant. '
+                                                            f'Please try again later.', ephemeral=True)
+            return
 
         view = Confirm()
         await interaction.response.send_message(embed=_confirmation, view=view, ephemeral=True)
@@ -205,9 +210,6 @@ class Says(commands.GroupCog, name='says'):
             await interaction.response.send_message(content=':x: Failed to invite user. This error shows when the '
                                                             'user has already accepted your invite or one had '
                                                             'already been sent out.')
-            return
-        elif usr1.id in self.host:
-            await interaction.response.send_message(content=':x: You cannot invite a host! :clown:')
             return
 
         view = Invite()
