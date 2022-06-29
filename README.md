@@ -19,6 +19,9 @@
 
 <h2 align="center" style="margin-bottom 0px !important;">Changelog</h2>
 
+`v2.4.0`
+- CC | Custom Channel support has been implemented
+
 `v2.3.1`:
 
 - Says | Multi-host support
