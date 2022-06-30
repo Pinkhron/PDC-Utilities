@@ -16,7 +16,7 @@ class Data:
 
     # Bot assets
 
-    VERSION = "2.4.0b"
+    VERSION = "2.5.0"
     EMOTE_LOAD = '<a:PDC_Loading:980936150065750036>'
     LOGO_BOT = "https://pinkhron.s3.amazonaws.com/PDC/icons/bot.png"
     LOGO_DEFAULT = "https://pinkhron.s3.amazonaws.com/PDC/icons/default.png"
