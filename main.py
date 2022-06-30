@@ -31,13 +31,15 @@ class NewConfirm(discord.ui.View):
         super().__init__()
         self.value = None
 
-    @discord.ui.button(emoji='❌', label='Confirm', style=discord.ButtonStyle.green)
+    @discord.ui.button(emoji='✅', label='Confirm', style=discord.ButtonStyle.green)
     async def confirm(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.send_message(content='working..')
         self.value = True
         self.stop()
 
-    @discord.ui.button(emoji='✅', label='Cancel', style=discord.ButtonStyle.grey)
+    @discord.ui.button(emoji='❌', label='Deny', style=discord.ButtonStyle.grey)
     async def cancel(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.send_message(content='working..')
         self.value = False
         self.stop()
 
@@ -102,7 +104,8 @@ async def on_member_join(member):
         await member.kick()
         await general.send(content=f':clock3: Kicked <@!{member.id}> due to button timeout.')
     elif view.value is True:
-        role = get(member.server.roles, name="MEMBER")
+        guild = bot.get_guild(966934902878646323)
+        role = get(guild.roles, id=Data.ROLE_MEMBER)
         await member.add_roles(role)
         await general.send(content=f':white_check_mark: Granted <@!{member.id}> access into the server.')
     else:
