@@ -1,3 +1,2 @@
 -e git+git://github.com/Rapptz/discord.py.git@7857a84#egg=discord.py
-PyNaCl==1.5.0
 python-dotenv==0.20.0
