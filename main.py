@@ -93,6 +93,7 @@ async def on_member_join(member):
 
     message = await general.send(embed=discord.Embed(
         title=f'{Data.EMOTE_MEMBER} A new member has joined PDC!',
+        color=0x1F8B4C,
         timestamp=datetime.now(),
         description='placeholder'
     ).set_footer(text=Data.NAME, icon_url=Data.ICON), view=view)
@@ -109,5 +110,16 @@ async def on_member_join(member):
         await general.send(content=f'Successfully kicked new member <@!{member.id}> upon user request')
     elif view.value == 2:
         await general.send(content=f'Successfully voided <@!{member.id}>\'s auto-kick timer')
+
+
+@bot.command()
+@commands.is_owner()
+async def sync (ctx):
+    try:
+        await ctx.send('Syncing (/) command to guild..')
+        await bot.tree.sync(guild=discord.Object(id=Data.GUILD_ID))
+        await ctx.send('Successfully synced (/) commands to guild')
+    except discord.errors.Forbidden:
+        await ctx.send('Error syncing (/) commands')
 
 bot.run(TOKEN)
