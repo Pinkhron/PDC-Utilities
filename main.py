@@ -36,6 +36,11 @@ bot = commands.Bot(command_prefix='$', intents=intents, owner_id=Data.OWNER_ID)
 async def on_ready():
     print(f'Successfully logged in as {bot.user}')
 
+    if __name__ == '__main__':
+        for cmd in os.listdir('./commands'):
+            if cmd.endswith('.py'):
+                await bot.load_extension(f'commands.{cmd[:-3]}')
+
 
 @bot.event
 async def on_message(message):
