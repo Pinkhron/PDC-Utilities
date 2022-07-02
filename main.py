@@ -128,7 +128,7 @@ async def poll(ctx, option1: str, option2: str):
         description=f'<:{bot.get_emoji(numbers[0]).name}:{numbers[0]}>: `{option1}`\n'
                     f'<:{bot.get_emoji(numbers[1]).name}:{numbers[1]}>: `{option2}`'
     ).set_footer(text=Data.NAME, icon_url=Data.ICON).set_author(
-        name=f'{ctx.user.name}#{ctx.user.discriminator}', icon_url=ctx.user.display_avatar))
+        name=f'{ctx.user.name}#{ctx.author.discriminator}', icon_url=ctx.author.display_avatar))
 
     for i in range(len(options)):
         message.add_reaction(f'<:PDC_{str(i)}:{numbers[i]}>')
