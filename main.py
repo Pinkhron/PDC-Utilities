@@ -123,7 +123,7 @@ async def poll(ctx, option1: str, option2: str):
     numbers = [992671851450990703, 992671853229391872, 992671854366035998, 992671855347503194, 992671856383496232]
     options = [option1, option2]
 
-    message = await ctx.end(embed=discord.Embed(
+    message = await ctx.send(embed=discord.Embed(
         title=':one: Poll',
         description=f'<:{bot.get_emoji(numbers[0]).name}:{numbers[0]}>: `{option1}`\n'
                     f'<:{bot.get_emoji(numbers[1]).name}:{numbers[1]}>: `{option2}`'
