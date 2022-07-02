@@ -118,7 +118,7 @@ async def on_member_join(member):
 
 
 # $Commands
-@bot.command
+@bot.command()
 async def poll(ctx, option1: str, option2: str):
     numbers = [992671851450990703, 992671853229391872, 992671854366035998, 992671855347503194, 992671856383496232]
     options = [option1, option2]
@@ -134,7 +134,7 @@ async def poll(ctx, option1: str, option2: str):
         message.add_reaction(f'<:PDC_{str(i)}:{numbers[i]}>')
 
 
-@bot.command
+@bot.command()
 @commands.is_owner()
 async def sync(ctx):
     try:
