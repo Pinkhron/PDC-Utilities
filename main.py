@@ -117,9 +117,26 @@ async def on_member_join(member):
         await general.send(content=f'Successfully voided <@!{member.id}>\'s auto-kick timer')
 
 
-@bot.command()
+# $Commands
+@bot.command
+async def poll(ctx, option1: str, option2: str):
+    numbers = [992671851450990703, 992671853229391872, 992671854366035998, 992671855347503194, 992671856383496232]
+    options = [option1, option2]
+
+    message = await ctx.response.send_message(embed=discord.Embed(
+        title=':one: Poll',
+        description=f'<:{bot.get_emoji(numbers[0]).name}:{numbers[0]}>: `{option1}`\n'
+                    f'<:{bot.get_emoji(numbers[1]).name}:{numbers[1]}>: `{option2}`'
+    ).set_footer(text=Data.NAME, icon_url=Data.ICON).set_author(
+        name=f'{ctx.user.name}#{ctx.user.discriminator}', icon_url=ctx.user.display_avatar))
+
+    for i in range(len(options)):
+        message.add_reaction(f'<:PDC_{str(i)}:{numbers[i]}>')
+
+
+@bot.command
 @commands.is_owner()
-async def sync (ctx):
+async def sync(ctx):
     try:
         await ctx.send('Syncing (/) command to guild..')
         await bot.tree.sync(guild=discord.Object(id=Data.GUILD_ID))
