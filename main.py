@@ -124,14 +124,21 @@ async def poll(ctx, option1: str, option2: str):
     options = [option1, option2]
 
     message = await ctx.send(embed=discord.Embed(
-        title=':one: Poll',
+        title='Poll',
+        color=Data.MAIN_COLOR,
         description=f'<:{bot.get_emoji(numbers[0]).name}:{numbers[0]}>: `{option1}`\n'
-                    f'<:{bot.get_emoji(numbers[1]).name}:{numbers[1]}>: `{option2}`'
+                    f'<:{bot.get_emoji(numbers[1]).name}:{numbers[1]}>: `{option2}`',
+        timestamp=datetime.now()
     ).set_footer(text=Data.NAME, icon_url=Data.ICON).set_author(
-        name=f'{ctx.user.name}#{ctx.author.discriminator}', icon_url=ctx.author.display_avatar))
+        name=f'{ctx.author.name}#{ctx.author.discriminator}', icon_url=ctx.author.display_avatar))
 
     for i in range(len(options)):
-        message.add_reaction(f'<:PDC_{str(i)}:{numbers[i]}>')
+        await message.add_reaction(f'<:PDC_{str(i)}:{numbers[i]}>')
+
+
+@bot.command()
+async def pfp(ctx, mem: discord.Member):
+    await ctx.reply(content=f'{mem.default_avatar}')
 
 
 @bot.command()
