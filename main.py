@@ -138,7 +138,7 @@ async def poll(ctx, option1: str, option2: str):
 
 @bot.command()
 async def pfp(ctx, mem: discord.Member):
-    await ctx.reply(content=f'{mem.default_avatar}')
+    await ctx.reply(content=f'{mem.avatar}')
 
 
 @bot.command()
