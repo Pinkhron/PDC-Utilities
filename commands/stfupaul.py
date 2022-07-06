@@ -11,7 +11,8 @@ class StfuPaul(commands.Cog):
 
     @app_commands.command(name='stfupaul', description='tell paul to be quiet')
     async def paul(self, interaction: discord.Interaction):
-        await interaction.response.send_message(content='stfu <@!237239078058328064>')
+        for i in range(10):
+            await self.bot.get_channel(991929082164019200).send(content=f'<@!{237239078058328064}>')
 
 
 async def setup(bot: commands.Bot):
