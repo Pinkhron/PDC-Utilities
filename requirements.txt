@@ -1,2 +1,4 @@
 -e git+git://github.com/Rapptz/discord.py.git@7857a84#egg=discord.py
 python-dotenv==0.20.0
+pymongo~=4.1.1
+python-crontab~=2.6.0

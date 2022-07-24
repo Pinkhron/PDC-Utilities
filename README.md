@@ -19,29 +19,21 @@
 
 <h2 align="center" style="margin-bottom 0px !important;">Changelog</h2>
 
-`v2.4.0`
-- CC | Custom Channel support has been implemented
+A = Added, C = Changed, D = Disabled & R = Removed
 
-`v2.3.1`:
+`v3.1.0`:
+- A | Added "love" & "live" as a random response when saying "pdc"
+- C | Accepting user into server will now give "NO TOS" role instead of "MEMBER"
+- D | Disabled `/minesweeper` for the time being
+- D | Disabled `$poll` command
+- R | Removed `/stfupaul` command
+- **CC COMING VERY VERY SOON**
+- Bug fixes & some smaller things..
 
-- Says | Multi-host support
-- Says | Framework done
-- Says | Official stable release
-
-`v2.3.0`:
-
-- PDC Says commands Introduced (Beta)
-
-`v2.1.1`:
-
-- [data.py](https://github.com/Pinkhron/PDC-Utilities/blob/3fd9b846b37d0e961a86d49ad07808424d708ed0/data.py) no longer uses JSON variables
-- Updated README.md
-
-`v2.0.0`:
-
-- Made commands that generate random objects more random
-- You can now generate numbers up to 1 septillion
-- Introduced (/) commands
-- Cleaner project files
+`v3.0.0`:
+- Now using the MIT Licence instead of GPL-3.0
+- Even cleaner files
+- Says was deprecated
+- Saying "PDC" will now give random responses
 
 Copyright © PDC Utilities 2022. All rights reserved.

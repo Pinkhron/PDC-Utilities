@@ -48,7 +48,9 @@ async def on_message(message):
         return
 
     if message.content.lower() == 'pdc':
-        await message.reply(content=f'is {random.choice(["epic", "awesome", "amazing", "the best", "on fire :fire:"])}')
+        await message.reply(
+            content=f'is {random.choice(["epic", "awesome", "amazing", "the best", "on fire :fire:", "love", "life"])}'
+        )
 
     if bot.user.mentioned_in(message) and len(bot.user.mention) == len(message.content):
         await message.reply(embed=discord.Embed(
@@ -69,7 +71,7 @@ async def on_message(message):
 @bot.event
 async def on_member_join(member):
     # Button
-    class Confirmation(discord.ui.View):
+    class Confirmation(discord.ui.View, timeout=3600.0):
         def __init__(self):
             super().__init__()
             self.value = None
@@ -93,54 +95,33 @@ async def on_member_join(member):
             self.stop()
 
     # Response
-    general = bot.get_channel(Data.TXT_GENERAL)
+    general = bot.get_channel(Data.TXT_NEWCOMERS)
     view = Confirmation()
 
     message = await general.send(embed=discord.Embed(
         title=f'{Data.EMOTE_MEMBER} A new member has joined PDC!',
-        color=0x1F8B4C,
+        color=Data.MAIN_COLOR,
         timestamp=datetime.now(),
-        description='placeholder'
+        description='**Accepting random users into the server will get you blacklisted until further notice**'
     ).set_footer(text=Data.NAME, icon_url=Data.ICON), view=view)
+    await message.pin()
 
     await view.wait()
     if view.value is None:
         await member.kick(reason='Failed to be confirmed upon join')
         await message.edit(content=f'<@!{member.id}> has been auto-kicked due to button timeout', suppress=True)
     elif view.value == 1:
-        await member.add_roles(get(member.guild.roles, id=Data.ROLE_MEMBER))
+        await member.add_roles(get(member.guild.roles, id=Data.ROLE_TOS))
         await general.send(content=f'Successfully granted <@!{member.id}> access into the server')
     elif view.value == 0:
         await member.kick(reason='Kicked by a PDC member upon join')
         await general.send(content=f'Successfully kicked new member <@!{member.id}> upon user request')
     elif view.value == 2:
         await general.send(content=f'Successfully voided <@!{member.id}>\'s auto-kick timer')
+    await message.unpin()
 
 
 # $Commands
-@bot.command()
-async def poll(ctx, option1: str, option2: str):
-    numbers = [992671851450990703, 992671853229391872, 992671854366035998, 992671855347503194, 992671856383496232]
-    options = [option1, option2]
-
-    message = await ctx.send(embed=discord.Embed(
-        title='Poll',
-        color=Data.MAIN_COLOR,
-        description=f'<:{bot.get_emoji(numbers[0]).name}:{numbers[0]}>: `{option1}`\n'
-                    f'<:{bot.get_emoji(numbers[1]).name}:{numbers[1]}>: `{option2}`',
-        timestamp=datetime.now()
-    ).set_footer(text=Data.NAME, icon_url=Data.ICON).set_author(
-        name=f'{ctx.author.name}#{ctx.author.discriminator}', icon_url=ctx.author.display_avatar))
-
-    for i in range(len(options)):
-        await message.add_reaction(f'<:PDC_{str(i)}:{numbers[i]}>')
-
-
-@bot.command()
-async def pfp(ctx, mem: discord.Member):
-    await ctx.reply(content=f'{mem.avatar}')
-
-
 @bot.command()
 @commands.is_owner()
 async def sync(ctx):
