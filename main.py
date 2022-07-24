@@ -73,7 +73,7 @@ async def on_member_join(member):
     channel = bot.get_channel(Data.TXT_NEWCOMERS)
     guild = bot.get_guild(Data.GUILD_ID)
     memberrole = guild.get_role(Data.ROLE_MEMBER)
-    memberobject = guild.get_member(member)
+    memberobject = guild.get_member(member.id)
     remaining = 3600
 
     await channel.set_permissions(memberrole, send_messages=True)
