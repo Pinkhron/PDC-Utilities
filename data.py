@@ -12,7 +12,7 @@ client = MongoClient(MONGODB)
 class Data:
     # Bot data
     NAME = 'PDC Utilities'
-    VERSION = '3.1.0'
+    VERSION = '3.2.0b'
     ICON = 'https://pinkhron.s3.amazonaws.com/PDC/icons/bot.png'
     OWNER_ID = 597178180176052234
     MAIN_COLOR = 0x6f0dd1

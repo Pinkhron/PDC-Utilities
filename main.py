@@ -1,11 +1,11 @@
 import os
+import time
 import random
 import platform
 from datetime import datetime
 
 import discord
 from discord.ext import commands
-from discord.utils import get
 
 from dotenv import load_dotenv
 from data import Data
@@ -70,55 +70,36 @@ async def on_message(message):
 
 @bot.event
 async def on_member_join(member):
-    # Button
-    class Confirmation(discord.ui.View, timeout=3600.0):
-        def __init__(self):
-            super().__init__()
-            self.value = None
+    channel = bot.get_channel(Data.TXT_NEWCOMERS)
+    guild = bot.get_guild(Data.GUILD_ID)
+    memberrole = guild.get_role(Data.ROLE_MEMBER)
+    memberobject = guild.get_member(member)
+    remaining = 3600
 
-        @discord.ui.button(emoji='✅', label='Confirm', style=discord.ButtonStyle.green)
-        async def confirm(self, interaction: discord.Interaction, button: discord.ui.Button):
-            await interaction.response.send_message(content=f'<@!{interaction.user.id}> Confirming..')
-            self.value = 1
-            self.stop()
-
-        @discord.ui.button(emoji='❌', label='Deny', style=discord.ButtonStyle.gray)
-        async def deny(self, interaction: discord.Interaction, button: discord.ui.Button):
-            await interaction.response.send_message(content=f'<@!{interaction.user.id}> Kicking user..')
-            self.value = 0
-            self.stop()
-
-        @discord.ui.button(emoji='🕒', label='Void', style=discord.ButtonStyle.red)
-        async def void(self, interaction: discord.Interaction, button: discord.ui.Button):
-            await interaction.response.send_message(content=f'<@!{interaction.user.id}> Removing kick timer..')
-            self.value = 2
-            self.stop()
-
-    # Response
-    general = bot.get_channel(Data.TXT_NEWCOMERS)
-    view = Confirmation()
-
-    message = await general.send(embed=discord.Embed(
+    await channel.set_permissions(memberrole, send_messages=True)
+    await channel.set_permissions(memberobject, send_messages=True)
+    message = await channel.send(embed=discord.Embed(
         title=f'{Data.EMOTE_MEMBER} A new member has joined PDC!',
         color=Data.MAIN_COLOR,
-        timestamp=datetime.now(),
-        description='**Accepting random users into the server will get you blacklisted until further notice**'
-    ).set_footer(text=Data.NAME, icon_url=Data.ICON), view=view)
+        description=f'<@!{member.id}> has joined PDC. This channel will be opened for an hour until a button is pressed'
+                    f'. Please refer to pins to make sure your taking correct actions.',
+    ).set_footer(text=Data.NAME, icon_url=Data.ICON))
     await message.pin()
 
-    await view.wait()
-    if view.value is None:
-        await member.kick(reason='Failed to be confirmed upon join')
-        await message.edit(content=f'<@!{member.id}> has been auto-kicked due to button timeout', suppress=True)
-    elif view.value == 1:
-        await member.add_roles(get(member.guild.roles, id=Data.ROLE_TOS))
-        await general.send(content=f'Successfully granted <@!{member.id}> access into the server')
-    elif view.value == 0:
-        await member.kick(reason='Kicked by a PDC member upon join')
-        await general.send(content=f'Successfully kicked new member <@!{member.id}> upon user request')
-    elif view.value == 2:
-        await general.send(content=f'Successfully voided <@!{member.id}>\'s auto-kick timer')
-    await message.unpin()
+    while remaining > 0:
+        time.sleep(1)
+        remaining -= 1
+
+    if remaining < 0:
+        await channel.set_permissions(memberrole, send_messages=False)
+        await channel.set_permissions(memberobject, send_messages=False)
+        await channel.send(embed=discord.Embed(
+            title=f':lock: <#{Data.TXT_NEWCOMERS}> has been locked',
+            color=Data.MAIN_COLOR,
+            description=f'Channel has been locked due to `{"a button being pressed" if time == 0 else "button timeout"}`. '
+                        f'Channel will be unlocked once a new member joins.'
+        ).set_footer(text=Data.NAME, icon_url=Data.ICON))
+        await message.unpin()
 
 
 # $Commands
