@@ -21,13 +21,19 @@
 
 A = Added, C = Changed, D = Disabled & R = Removed
 
+`v3.3.0`:
+- C | Member verification button timeout is now 1 hour and will also pin the verification message when active
+
+`v3.2.0`:
+- A | **Added `/pin` to temporary pin a message for a day, ~~alternatively start a message with ">" for the same effect (Only works in #general)~~** :fire:
+
 `v3.1.0`:
-- A | Added "love" & "live" as a random response when saying "pdc"
+- A | Added "love" & "life" as a random response when saying "pdc"
 - C | Accepting user into server will now give "NO TOS" role instead of "MEMBER"
 - D | Disabled `/minesweeper` for the time being
 - D | Disabled `$poll` command
 - R | Removed `/stfupaul` command
-- **CC COMING VERY VERY SOON**
+- **CC & MORE COMING VERY VERY SOON**
 - Bug fixes & some smaller things..
 
 `v3.0.0`:

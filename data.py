@@ -12,7 +12,7 @@ client = MongoClient(MONGODB)
 class Data:
     # Bot data
     NAME = 'PDC Utilities'
-    VERSION = '3.2.0b'
+    VERSION = '3.2.0'
     ICON = 'https://pinkhron.s3.amazonaws.com/PDC/icons/bot.png'
     OWNER_ID = 597178180176052234
     MAIN_COLOR = 0x6f0dd1
@@ -22,6 +22,7 @@ class Data:
     # Text channels
     TXT_NEWCOMERS = 992347850400858203
     TXT_GENERAL = 966934903381983324
+    TXT_BOTS = 966958813565550592
 
     # Emojis
     EMOTE_MEMBER = '<:PDC_Member:992327295572377651>'
@@ -33,6 +34,7 @@ class Data:
 
 
 class Mongo:
-    DB_USER = client['user']
+    DB_DATA = client['data']
 
-    CL_MEMBER = DB_USER['member']
+    CL_CC = DB_DATA['cc']
+    CL_MEMBER = DB_DATA['member']

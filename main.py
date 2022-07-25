@@ -41,6 +41,10 @@ async def on_ready():
             if cmd.endswith('.py'):
                 await bot.load_extension(f'commands.{cmd[:-3]}')
 
+        for script in os.listdir('./scripts'):
+            if script.endswith('.py'):
+                await bot.load_extension(script[:-3])
+
 
 @bot.event
 async def on_message(message):
